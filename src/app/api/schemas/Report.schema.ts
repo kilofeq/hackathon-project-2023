@@ -30,7 +30,6 @@ const reportSchema = new Schema({
    To add:
    Description (could be optional),
    timeOfReport,
-   Danger??
   */
 });
 
