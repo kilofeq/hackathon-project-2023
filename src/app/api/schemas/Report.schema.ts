@@ -2,10 +2,9 @@ import { Schema, model } from 'mongoose';
 
 const reportSchema = new Schema({
   name: String,
-  photo: {
-    type: String,
-    required: false,
-    default: null,
+  photos: {
+    type: Array<String>,
+    default: [],
   },
   latitude: String,
   longtitude: String,
