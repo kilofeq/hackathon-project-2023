@@ -4,7 +4,7 @@ import connectMongoose from '../helpers/connectMongoose';
 import { Animal, animalValues } from '../enums/animalEnum';
 import { NumberExpression, Schema } from 'mongoose';
 
-const RANGE = 150000;
+const RANGE = 100;
 
 type Report = {
   _id: string
@@ -63,10 +63,19 @@ const groupReportsV2 = (reports: Report[]) => {
 }
 
 function isInRange(
-  centerLongtitude: number,
+  centerLongitude: number,
   centerLatitude: number,
-  pointLongtitude: number,
+  pointLongitude: number,
   pointLatitude: number) {
-  console.log(`${Math.pow(Math.abs(pointLatitude - centerLatitude), 2) + Math.pow(Math.abs(pointLongtitude - centerLongtitude), 2) < RANGE}`)  
-  return Math.pow(Math.abs(pointLatitude - centerLatitude), 2) + Math.pow(Math.abs(pointLongtitude - centerLongtitude), 2) < RANGE;
+
+  const centerLatitudeInMeters = convertToMeters(centerLatitude);
+  const pointLatitudeInMeters = convertToMeters(pointLatitude);
+  const centerLongitudeInMeters = convertToMeters(centerLongitude);
+  const pointLongitudeInMeters = convertToMeters(pointLongitude);
+  return Math.pow(Math.abs(pointLatitudeInMeters - centerLatitudeInMeters), 2) 
+  + Math.pow(Math.abs(pointLongitudeInMeters - centerLongitudeInMeters), 2) < RANGE*RANGE;
+}
+
+const convertToMeters = (degrees: number) => {
+  return degrees*100000;
 }
