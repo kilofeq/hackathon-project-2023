@@ -9,6 +9,8 @@ import { ButtonComponent } from "@/app/components/ButtonComponent";
 import { animalToAnimalNameDictionary } from "@/types/dictionaries";
 import SelectComponent from "@/app/components/SelectComponent";
 import ImageInput from "@/app/components/ImageInput";
+import useLocation from "@/app/hooks/useLocation";
+import axios from "axios";
 
 export type AddReportFormType = {
 	name: string
@@ -24,6 +26,8 @@ const AddReportForm = ({
 	className = "",
 }: Props) => {
 
+	const { lat, lng } = useLocation();
+
 	const formik = useFormik<AddReportFormType>({
 		initialValues: {
 			name: "",
@@ -31,7 +35,14 @@ const AddReportForm = ({
 			imagesUrls: [],
 		},
 		onSubmit: values => {
-			alert(JSON.stringify(values, null, 2));
+			axios.post("/api/create-report", {
+				name: values.name,
+				photos: values.imagesUrls,
+				latitude: lat,
+				longitude: lng,
+				animal: values.animalType,
+				danger: false,
+			})
 		},
 		validate: (values) => {
 			console.log(values);
