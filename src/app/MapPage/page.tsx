@@ -10,12 +10,13 @@ import { MenuIcon } from "@/assets/menuIcon";
 import { FilterIcon } from "@/assets/filterIcon";
 import {PhotoContainer} from "@/app/components/PhotoContainer";
 import AddReportForm from "@/app/components/AddReport.form";
+import {IReport} from "@/types/util.types";
 
 const MapPage = () => {
 
     const [ isAddReportDialogOpen, setAddReportDialogOpen ] = useState(false);
     const [ isReportOpen, setReportOpen ] = useState(false);
-    const [currentReport, setCurrentReport] = useState({})
+    const [currentReport, setCurrentReport] = useState<IReport | null>(null);
 
     const handleClick = (report: any) => {
       setCurrentReport(report)
@@ -40,8 +41,8 @@ const MapPage = () => {
                     Zgłoś
                 </ButtonComponent>
             </div>
-          <Modal isOpen={isReportOpen} setIsOpen={() => setReportOpen(prevState => !prevState)} title={currentReport.name}>
-            <PhotoContainer images={currentReport.photos}/>
+          <Modal isOpen={isReportOpen} setIsOpen={() => setReportOpen(prevState => !prevState)} title={currentReport?.name}>
+            <PhotoContainer images={currentReport?.photos}/>
           </Modal>
             <Modal
                 isOpen={ isAddReportDialogOpen }

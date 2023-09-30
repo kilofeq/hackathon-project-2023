@@ -1,3 +1,6 @@
+import {Schema} from "mongoose";
+import {animalValues} from "@/app/api/enums/animalEnum";
+
 export type EnumDictionary<T extends string | symbol | number, U> = {
 	[K in T]: U;
 };
@@ -19,4 +22,14 @@ export enum Color {
 export enum InputType {
 	TEXT = "text",
 	NUMBER = "number",
+}
+
+export interface IReport {
+    name: string,
+    photos: string[],
+    latitude: number,
+    longitude: number,
+    user_ids: string[],
+    danger: boolean,
+    animal: string
 }
