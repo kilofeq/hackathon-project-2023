@@ -1,4 +1,5 @@
-import { Schema, model, models } from 'mongoose';
+import { Schema, model, models } from "mongoose";
+import { Animal, animalValues } from "../enums/animalEnum";
 
 const reportSchema = new Schema({
   name: String,
@@ -8,18 +9,23 @@ const reportSchema = new Schema({
   },
   latitude: {
     type: Number,
-    require: true
+    require: true,
   },
   longtitude: {
     type: Number,
-    require: true
+    require: true,
   },
   user_ids: {
     type: Array<Schema.Types.ObjectId>,
-    ref: 'User',
+    ref: "User",
   },
-  Danger: Boolean,
-  timeOfReport: Date
+  danger: {
+    type: Boolean,
+  },
+  animal: {
+    type: String,
+    enum: animalValues,
+  },
   /**
    To add:
    Description (could be optional),
@@ -28,4 +34,4 @@ const reportSchema = new Schema({
   */
 });
 
-export default models.Report || model('Report', reportSchema);
+export default models.Report || model("Report", reportSchema);
