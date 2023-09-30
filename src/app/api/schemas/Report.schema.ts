@@ -6,12 +6,26 @@ const reportSchema = new Schema({
     type: Array<String>,
     default: [],
   },
-  latitude: Number,
-  longtitude: Number,
+  latitude: {
+    type: Number,
+    require: true
+  },
+  longtitude: {
+    type: Number,
+    require: true
+  },
   user_ids: {
     type: Array<Schema.Types.ObjectId>,
     ref: 'User',
   },
+  Danger: Boolean,
+  timeOfReport: Date
+  /**
+   To add:
+   Description (could be optional),
+   timeOfReport,
+   Danger??
+  */
 });
 
 export default models.Report || model('Report', reportSchema);
