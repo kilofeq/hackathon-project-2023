@@ -8,6 +8,7 @@ import { Color } from "@/types/util.types";
 import { IconButton } from "@/app/components/IconButton";
 import { MenuIcon } from "@/assets/menuIcon";
 import { FilterIcon } from "@/assets/filterIcon";
+import {PhotoContainer} from "@/app/components/PhotoContainer";
 import AddReportForm from "@/app/components/AddReport.form";
 
 const MapPage = () => {
@@ -39,7 +40,9 @@ const MapPage = () => {
                     Zgłoś
                 </ButtonComponent>
             </div>
-             <Modal isOpen={isReportOpen} setIsOpen={() => setReportOpen(prevState => !prevState)} title={currentReport.name}/>
+          <Modal isOpen={isReportOpen} setIsOpen={() => setReportOpen(prevState => !prevState)} title={currentReport.name}>
+            <PhotoContainer images={currentReport.photos}/>
+          </Modal>
             <Modal
                 isOpen={ isAddReportDialogOpen }
                 setIsOpen={ () => setAddReportDialogOpen(isOpen => !isOpen) }
