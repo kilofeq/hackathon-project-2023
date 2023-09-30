@@ -13,6 +13,10 @@ const MapPage = () => {
 
     const [ isAddReportDialogOpen, toggleAddReportDialogOpen ] = useState(false);
 
+    const handleClick = () => {
+      console.log('doiuadoawondaw')
+    }
+
     return (
         <>
             <div className='relative h-screen w-screen'>
@@ -22,7 +26,7 @@ const MapPage = () => {
               <IconButton style={"right-5 top-5 bg-sky-950"}>
                 <FilterIcon/>
               </IconButton>
-                <MapComponent/>
+                <MapComponent onMapPinClick={handleClick}/>
                 <ButtonComponent
                     handleClick={ () => toggleAddReportDialogOpen(true) }
                     color={ Color.RED }
