@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.17",
     "google-map-react": "^2.2.1",
     "next": "latest",
     "react": "latest",
