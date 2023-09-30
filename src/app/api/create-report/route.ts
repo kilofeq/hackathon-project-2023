@@ -8,7 +8,7 @@ interface createReportRequest{
     name: string,
     photos?: Array<string>,
     latitude: number,
-    longtitude: number,
+    longitude: number,
     danger?: boolean,
     animal: Animal
 }
