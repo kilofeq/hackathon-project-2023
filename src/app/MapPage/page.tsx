@@ -1,11 +1,9 @@
-'use client'
+"use client";
 
 import { MapComponent } from "@/app/components/MapComponent/MapComponent";
-import { MapButton } from "@/app/components/MapButton/MapButton";
-import AddReportDialog from "@/app/components/AddReportDialog/AddReportDialog";
 import { useState } from "react";
 import Modal from "@/app/components/Modal/Modal";
-import { ButtonComponent } from "@/app/components/Button/Button";
+import { ButtonComponent } from "@/app/components/ButtonComponent/ButtonComponent";
 import { Color } from "@/types/util.types";
 
 const MapPage = () => {
@@ -27,10 +25,10 @@ const MapPage = () => {
                 isOpen={ isAddReportDialogOpen }
                 setIsOpen={ () => toggleAddReportDialogOpen(isOpen => !isOpen) }
                 title="Title"
-                button{{
-                    color: "red",
-                    text: ""
-                }}
+                button={ {
+                    color: Color.RED,
+                    text: "Test",
+                } }
             >
                 <p>Content</p>
             </Modal>

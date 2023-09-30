@@ -1,7 +1,6 @@
-import { Dialog, Transition } from '@headlessui/react'
-import { Fragment, PropsWithChildren, ReactNode, useState, MouseEvent } from "react";
-import { Property } from "csstype";
-import { ButtonComponent } from "@/app/components/Button/Button";
+import { Dialog, Transition } from "@headlessui/react";
+import { Fragment, MouseEvent, PropsWithChildren, ReactNode } from "react";
+import { ButtonComponent } from "@/app/components/ButtonComponent/ButtonComponent";
 import { Color } from "@/types/util.types";
 
 type ButtonConfig = {
@@ -27,10 +26,6 @@ export default function Modal({
 
 	function closeModal() {
 		setIsOpen(false)
-	}
-
-	function openModal() {
-		setIsOpen(true)
 	}
 
 	return (

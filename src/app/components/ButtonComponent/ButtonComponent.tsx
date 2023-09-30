@@ -1,6 +1,5 @@
-import {ButtonProps} from "@/types/ButtonProps";
+import { ButtonProps } from "@/types/ButtonProps";
 import { PropsWithChildren } from "react";
-import * as child_process from "child_process";
 
 export const ButtonComponent = ({
 	handleClick,
