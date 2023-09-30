@@ -3,8 +3,6 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import connectMongoose from '../helpers/connectMongoose';
 
-export const runtime = 'edge';
-
 export function POST(request: NextRequest) {
     return handle(request);
 }
