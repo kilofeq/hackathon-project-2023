@@ -8,7 +8,7 @@ import { Color } from "@/types/util.types";
 import { IconButton } from "@/app/components/IconButton";
 import { MenuIcon } from "@/assets/menuIcon";
 import { FilterIcon } from "@/assets/filterIcon";
-import {PhotoContainer} from "@/app/components/PhotoContainer";
+import { PhotoContainer } from "@/app/components/PhotoContainer";
 import AddReportForm from "@/app/components/AddReport.form";
 
 const MapPage = () => {
@@ -48,7 +48,7 @@ const MapPage = () => {
                 setIsOpen={ () => setAddReportDialogOpen(isOpen => !isOpen) }
                 title="Dodaj zgłoszenie"
             >
-                <AddReportForm className="px-4"/>
+                <AddReportForm className="px-4" onSuccess={ () => setAddReportDialogOpen(false) }/>
             </Modal>
         </>
     )

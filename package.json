@@ -14,9 +14,9 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@headlessui/react": "^1.7.17",
     "@types/react-select": "^5.0.1",
+    "axios": "^1.5.1",
     "classnames": "^2.3.2",
     "dotenv": "^16.3.1",
-    "axios": "^1.5.1",
     "formik": "^2.4.5",
     "google-map-react": "^2.2.1",
     "google-maps-react-markers": "^2.0.0",
@@ -25,6 +25,7 @@
     "react": "latest",
     "react-dom": "latest",
     "react-select": "^5.7.5",
+    "react-spinners": "^0.13.8",
     "yet-another-react-lightbox": "^3.12.2"
   },
   "devDependencies": {

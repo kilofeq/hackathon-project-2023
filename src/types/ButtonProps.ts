@@ -6,4 +6,5 @@ export interface ButtonProps {
   className?: string
   disabled?: boolean
   submit?: boolean
+  isLoading?: boolean
 }

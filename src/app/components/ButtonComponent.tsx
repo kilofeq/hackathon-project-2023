@@ -2,6 +2,7 @@ import { ButtonProps } from "@/types/ButtonProps";
 import { PropsWithChildren } from "react";
 import classNames from "classnames";
 import { Color } from "@/types/util.types";
+import { PropagateLoader } from "react-spinners";
 
 export const ButtonComponent = ({
 	handleClick,
@@ -10,6 +11,7 @@ export const ButtonComponent = ({
 	className = "",
 	disabled = false,
 	submit = false,
+	isLoading = false,
 }: PropsWithChildren<ButtonProps>) => {
 	return (
 		<button
@@ -18,9 +20,15 @@ export const ButtonComponent = ({
 			style={ { backgroundColor: !disabled ? color : Color.GRAY } }
 			type={ submit ? "submit" : "button" }
 		>
-			<div className="text-white text-xl font-['SF Pro']">
-				{ children }
-			</div>
+			{
+				isLoading
+					?
+					<PropagateLoader size={ 8 } color="#fff" className=" transform translate-y-[-3px]"/>
+					:
+					<div className="text-white text-xl font-['SF Pro']">
+						{ children }
+					</div>
+			}
 		</button>
 	)
 }

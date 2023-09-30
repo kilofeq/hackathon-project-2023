@@ -11,6 +11,7 @@ import SelectComponent from "@/app/components/SelectComponent";
 import ImageInput from "@/app/components/ImageInput";
 import useLocation from "@/app/hooks/useLocation";
 import axios from "axios";
+import { useState } from "react";
 
 export type AddReportFormType = {
 	name: string
@@ -20,13 +21,17 @@ export type AddReportFormType = {
 
 type Props = {
 	className?: string
+	onSuccess?: () => void
 }
 
 const AddReportForm = ({
 	className = "",
+	onSuccess,
 }: Props) => {
 
 	const { lat, lng } = useLocation();
+
+	const [ isAddingMarker, setIsAddingMarker ] = useState(false);
 
 	const formik = useFormik<AddReportFormType>({
 		initialValues: {
@@ -35,6 +40,7 @@ const AddReportForm = ({
 			imagesUrls: [],
 		},
 		onSubmit: values => {
+			setIsAddingMarker(true);
 			axios.post("/api/create-report", {
 				name: values.name,
 				photos: values.imagesUrls,
@@ -42,6 +48,9 @@ const AddReportForm = ({
 				longitude: lng,
 				animal: values.animalType,
 				danger: false,
+			}).then(() => {
+				setIsAddingMarker(false);
+				if (onSuccess) onSuccess();
 			})
 		},
 		validate: (values) => {
@@ -85,6 +94,7 @@ const AddReportForm = ({
 					<ButtonComponent
 						color={ Color.RED }
 						submit
+						isLoading={ isAddingMarker }
 					>
 						Dodaj zgłoszenie
 					</ButtonComponent>
