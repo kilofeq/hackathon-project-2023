@@ -12,6 +12,7 @@ import ImageInput from "@/app/components/ImageInput";
 import useLocation from "@/app/hooks/useLocation";
 import axios from "axios";
 import { useState } from "react";
+import { auth } from "../helpers/firebase";
 
 export type AddReportFormType = {
 	name: string
@@ -39,7 +40,8 @@ const AddReportForm = ({
 			animalType: null,
 			imagesUrls: [],
 		},
-		onSubmit: values => {
+		onSubmit: async values => {
+			const token = await auth.currentUser?.getIdToken()
 			setIsAddingMarker(true);
 			axios.post("/api/create-report", {
 				name: values.name,
@@ -48,6 +50,10 @@ const AddReportForm = ({
 				longitude: lng,
 				animal: values.animalType,
 				danger: false,
+			}, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
 			}).then(() => {
 				setIsAddingMarker(false);
 				if (onSuccess) onSuccess();

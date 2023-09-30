@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import connectMongoose from "../helpers/connectMongoose";
 import { Animal, dangerOfAnimal } from "../enums/animalEnum";
+import {auth} from "../helpers/firebaseAdmin"
 
 interface createReportRequest {
   name: string;
@@ -17,6 +18,40 @@ export function POST(request: NextRequest) {
 }
 
 async function handle(request: NextRequest) {
+  const authorizationHeader = request.headers.get('Authorization')
+  if (!authorizationHeader) {
+    return NextResponse.json(
+      {
+        description: "Authorization header is missing",
+      },
+      {
+        status: 401,
+      }
+    );
+  }
+  const token = authorizationHeader.split(' ')[1]
+  if (!token) {
+    return NextResponse.json(
+      {
+        description: "Authorization header is missing",
+      },
+      {
+        status: 401,
+      }
+    );
+  }
+  try {
+    await auth.verifyIdToken(token)
+  } catch {
+    return NextResponse.json(
+      {
+        description: "Authorization header is invalid",
+      },
+      {
+        status: 401,
+      }
+    );
+  }
   let reportData = (await request.json()) as createReportRequest;
   try {
     await connectMongoose();

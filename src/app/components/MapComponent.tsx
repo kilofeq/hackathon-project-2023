@@ -10,6 +10,7 @@ export const MapComponent = (props: {onMapPinClick: (report: any) => void}) => {
 
   const [userLocalization, setUserLocalization] = useState({ lat: 0, lng: 0 });
   const [reports, setReports] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((loc) => {
@@ -20,10 +21,11 @@ export const MapComponent = (props: {onMapPinClick: (report: any) => void}) => {
   useEffect(() => {
     axios.get("/api/fetch-reports").then(r => {
       setReports(r.data)
+      setLoading(false)
     })
   }, []);
 
-  if (userLocalization.lat !== 0 || userLocalization.lng !== 0) {
+  if ((userLocalization.lat !== 0 || userLocalization.lng !== 0) || !loading) {
     return (
     <div className='w-screen h-screen'>
       <GoogleMap
@@ -57,5 +59,11 @@ export const MapComponent = (props: {onMapPinClick: (report: any) => void}) => {
       </GoogleMap>
     </div>
   )
-}
+} else {
+    return (
+      <div className='h-screen w-screen flex justify-center items-center'>
+        <p className='text-xl animate-spin'>Loading...</p>
+      </div>
+    )
+  }
 }

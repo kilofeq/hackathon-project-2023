@@ -1,7 +1,7 @@
 'use client';
 
 import { MapComponent } from "@/app/components/MapComponent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "@/app/components/Modal/Modal";
 import { ButtonComponent } from "@/app/components/ButtonComponent";
 import { Color } from "@/types/util.types";
@@ -10,17 +10,26 @@ import { MenuIcon } from "@/assets/menuIcon";
 import { FilterIcon } from "@/assets/filterIcon";
 import { PhotoContainer } from "@/app/components/PhotoContainer";
 import AddReportForm from "@/app/components/AddReport.form";
+import {IReport} from "@/types/util.types";
+import { auth } from "../helpers/firebase";
+import { User } from "@firebase/auth";
+import LoginForm from "../components/LoginForm";
 
 const MapPage = () => {
-
+    const [user, setUser] = useState<User | null>(null)
     const [ isAddReportDialogOpen, setAddReportDialogOpen ] = useState(false);
     const [ isReportOpen, setReportOpen ] = useState(false);
-    const [currentReport, setCurrentReport] = useState({})
+    const [currentReport, setCurrentReport] = useState<IReport | null>(null);
 
     const handleClick = (report: any) => {
       setCurrentReport(report)
       setReportOpen(true)
     }
+    useEffect(() => {
+        return auth.onAuthStateChanged((user) => {
+            setUser(user ?? null)
+        })
+    }, [])
 
     return (
         <>
@@ -40,15 +49,19 @@ const MapPage = () => {
                     Zgłoś
                 </ButtonComponent>
             </div>
-          <Modal isOpen={isReportOpen} setIsOpen={() => setReportOpen(prevState => !prevState)} title={currentReport.name}>
-            <PhotoContainer images={currentReport.photos}/>
+          <Modal isOpen={isReportOpen} setIsOpen={() => setReportOpen(prevState => !prevState)} title={currentReport?.name}>
+            <PhotoContainer images={currentReport?.photos}/>
           </Modal>
             <Modal
                 isOpen={ isAddReportDialogOpen }
                 setIsOpen={ () => setAddReportDialogOpen(isOpen => !isOpen) }
                 title="Dodaj zgłoszenie"
             >
-                <AddReportForm className="px-4" onSuccess={ () => setAddReportDialogOpen(false) }/>
+                {user ? (
+                    <AddReportForm className="px-4" onSuccess={ () => setAddReportDialogOpen(false) }/>
+                ) : (
+                    <LoginForm className="px-4" />
+                )}
             </Modal>
         </>
     )
