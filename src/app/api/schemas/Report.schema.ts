@@ -8,8 +8,8 @@ const reportSchema = new Schema({
   },
   latitude: String,
   longtitude: String,
-  user_id: {
-    type: Schema.Types.ObjectId,
+  user_ids: {
+    type: Array<Schema.Types.ObjectId>,
     ref: 'User',
   },
 });
