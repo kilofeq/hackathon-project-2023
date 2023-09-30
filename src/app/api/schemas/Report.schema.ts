@@ -1,20 +1,17 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, models } from 'mongoose';
 
 const reportSchema = new Schema({
   name: String,
-  photo: {
-    type: String,
-    required: false,
-    default: null,
+  photos: {
+    type: Array<String>,
+    default: [],
   },
-  latitude: String,
-  longtitude: String,
-  user_id: {
-    type: Schema.Types.ObjectId,
+  latitude: Number,
+  longtitude: Number,
+  user_ids: {
+    type: Array<Schema.Types.ObjectId>,
     ref: 'User',
   },
 });
 
-const Report = model('Report', reportSchema);
-
-export default Report;
+export default models.Report || model('Report', reportSchema);
