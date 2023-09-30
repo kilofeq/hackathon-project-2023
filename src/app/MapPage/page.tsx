@@ -8,6 +8,7 @@ import { Color } from "@/types/util.types";
 import { IconButton } from "@/app/components/IconButton";
 import { MenuIcon } from "@/assets/menuIcon";
 import { FilterIcon } from "@/assets/filterIcon";
+import AddReportForm from "@/app/components/AddReport.form";
 
 const MapPage = () => {
 
@@ -19,6 +20,7 @@ const MapPage = () => {
       setCurrentReport(report)
       setReportOpen(true)
     }
+
     return (
         <>
             <div className='relative h-screen w-screen'>
@@ -37,17 +39,13 @@ const MapPage = () => {
                     Zgłoś
                 </ButtonComponent>
             </div>
-         <Modal isOpen={isReportOpen} setIsOpen={() => setReportOpen(prevState => !prevState)} title={currentReport.name}/>
+             <Modal isOpen={isReportOpen} setIsOpen={() => setReportOpen(prevState => !prevState)} title={currentReport.name}/>
             <Modal
                 isOpen={ isAddReportDialogOpen }
                 setIsOpen={ () => setAddReportDialogOpen(isOpen => !isOpen) }
                 title="Dodaj zgłoszenie"
-                button={ {
-                    color: Color.RED,
-                    text: "Dodaj zgłoszenie",
-                } }
             >
-                <p>Content</p>
+                <AddReportForm className="px-4"/>
             </Modal>
         </>
     )

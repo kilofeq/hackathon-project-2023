@@ -5,4 +5,5 @@ export interface ButtonProps {
   color: Color,
   className?: string
   disabled?: boolean
+  submit?: boolean
 }

@@ -2,6 +2,8 @@ export type EnumDictionary<T extends string | symbol | number, U> = {
 	[K in T]: U;
 };
 
+export type Nullable<T> = T | null;
+
 export enum Color {
 	RED = "#C1121F",
 	DARK_RED = "#780000",
@@ -12,4 +14,9 @@ export enum Color {
 	BLACK = "#1B1B1B",
 	WHITE = "#FFFFFF",
 	GRAY = "#616161",
+}
+
+export enum InputType {
+	TEXT = "text",
+	NUMBER = "number",
 }
