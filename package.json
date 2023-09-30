@@ -16,8 +16,6 @@
     "classnames": "^2.3.2",
     "dotenv": "^16.3.1",
     "axios": "^1.5.1",
-    "classnames": "^2.3.2",
-    "dotenv": "^16.3.1",
     "google-map-react": "^2.2.1",
     "google-maps-react-markers": "^2.0.0",
     "mongoose": "^7.5.3",
