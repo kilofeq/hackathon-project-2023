@@ -25,8 +25,8 @@ async function handle(request: NextRequest) {
             animalNumber = Math.floor(Math.random() * 3)
             const report = new Report({
                 ...reportData,
-                latitude: 49.7 + Math.random()*0.6,
-                longitude: 19.8 + Math.random()*0.4,
+                latitude: 49.3 + Math.random()*1.3,
+                longitude: 19.5 + Math.random()*1.1,
                 animal: animalValues[animalNumber],
                 danger: reportData.danger ?? dangerOfAnimal(animalValues[animalNumber] as Animal)
             })
