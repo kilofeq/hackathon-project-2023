@@ -2,21 +2,22 @@
 
 import { useFormik } from "formik";
 import { Animal } from "@/app/api/enums/animalEnum";
-import { Color, InputType, Nullable } from "@/types/util.types";
+import { Color, InputType } from "@/types/util.types";
 import InputComponent from "@/app/components/InputComponent";
 import classNames from "classnames";
 import { ButtonComponent } from "@/app/components/ButtonComponent";
-import { animalToAnimalNameDictionary } from "@/types/dictionaries";
+import { animalToAnimalEmojiDictionary, animalToAnimalNameDictionary } from "@/types/dictionaries";
 import SelectComponent from "@/app/components/SelectComponent";
 import ImageInput from "@/app/components/ImageInput";
 import useLocation from "@/app/hooks/useLocation";
 import axios from "axios";
 import { useState } from "react";
 import { auth } from "../helpers/firebase";
+import { toast } from "react-toastify";
 
 export type AddReportFormType = {
 	name: string
-	animalType: Nullable<Animal>
+	animalType: Animal
 	imagesUrls: string[]
 }
 
@@ -56,14 +57,15 @@ const AddReportForm = ({
 					Authorization: `Bearer ${token}`
 				}
 			}).then(() => {
-				if (onSuccess) onSuccess();
+				if (!onSuccess) return;
+				onSuccess();
+				toast(`${ animalToAnimalEmojiDictionary[ formik.values.animalType ] } Pomyślnie dodano zgłoszenie`)
 			}).finally(() => {
 				setIsAddingMarker(false);
 			})
 		},
 		validateOnChange: true,
 	});
-	console.log(formik.values)
 
 	return (
 		<div className={
