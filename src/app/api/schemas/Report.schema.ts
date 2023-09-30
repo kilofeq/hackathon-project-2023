@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, models } from 'mongoose';
 
 const reportSchema = new Schema({
   name: String,
@@ -6,14 +6,12 @@ const reportSchema = new Schema({
     type: Array<String>,
     default: [],
   },
-  latitude: String,
-  longtitude: String,
+  latitude: Number,
+  longtitude: Number,
   user_ids: {
     type: Array<Schema.Types.ObjectId>,
     ref: 'User',
   },
 });
 
-const Report = model('Report', reportSchema);
-
-export default Report;
+export default models.Report || model('Report', reportSchema);
