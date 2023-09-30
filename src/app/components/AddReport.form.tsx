@@ -29,15 +29,16 @@ const AddReportForm = ({
 	className = "",
 	onSuccess,
 }: Props) => {
-
+	const options: { label: string, value: string }[] = Object.values(Animal).map((animal) => ({
+		value: animal,
+		label: animalToAnimalNameDictionary[ animal ]
+	}))
 	const { lat, lng } = useLocation();
-
 	const [ isAddingMarker, setIsAddingMarker ] = useState(false);
-
 	const formik = useFormik<AddReportFormType>({
 		initialValues: {
 			name: "",
-			animalType: null,
+			animalType: options[0].value as Animal,
 			imagesUrls: [],
 		},
 		onSubmit: async values => {
@@ -55,25 +56,20 @@ const AddReportForm = ({
 					Authorization: `Bearer ${token}`
 				}
 			}).then(() => {
-				setIsAddingMarker(false);
 				if (onSuccess) onSuccess();
+			}).finally(() => {
+				setIsAddingMarker(false);
 			})
 		},
-		validate: (values) => {
-			console.log(values);
-		}
+		validateOnChange: true,
 	});
-
-	const options: { label: string, value: string }[] = Object.values(Animal).map((animal) => ({
-		value: animal,
-		label: animalToAnimalNameDictionary[ animal ]
-	}))
+	console.log(formik.values)
 
 	return (
 		<div className={
 			classNames(
-				"flex flex-col gap-[13px]",
-				{ [ className ]: className }
+				"flex flex-col gap-[13px] pt-4",
+				className
 			)
 		}>
 			<form
@@ -87,6 +83,7 @@ const AddReportForm = ({
 					label="Nazwa zgłoszenia"
 					error={ formik.errors.name }
 					handleChange={ formik.handleChange }
+					required
 				/>
 				<SelectComponent
 					options={ options }
@@ -101,6 +98,7 @@ const AddReportForm = ({
 						color={ Color.RED }
 						submit
 						isLoading={ isAddingMarker }
+						disabled={formik.values.imagesUrls.length === 0 || formik.values.name.length === 0}
 					>
 						Dodaj zgłoszenie
 					</ButtonComponent>

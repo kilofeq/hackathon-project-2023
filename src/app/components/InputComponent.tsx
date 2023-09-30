@@ -10,6 +10,7 @@ type Props = {
 	error?: Nullable<string>
 	handleChange: (e: ChangeEvent<HTMLInputElement>) => void
 	placeholder?: string
+	required?: boolean
 }
 
 const InputComponent = ({
@@ -21,6 +22,7 @@ const InputComponent = ({
 	error,
 	handleChange,
 	placeholder,
+	required,
 }: Props) => {
 
 	return (

@@ -45,7 +45,7 @@ const LoginForm = ({
 		}>
 			<form
 				onSubmit={handleSubmit}
-				className="flex flex-col gap-[13px]"
+				className="flex flex-col space-y-6 pt-4"
 			>
 				<InputComponent
 					name="email"
@@ -61,7 +61,7 @@ const LoginForm = ({
 					label="Password"
 					handleChange={e => setPassword(e.target.value)}
 				/>
-				<div className="px-4 pt-6">
+				<div className="px-4 pt-2">
 					<ButtonComponent
 						color={ Color.RED }
 						submit

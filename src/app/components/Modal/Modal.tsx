@@ -48,7 +48,7 @@ export default function Modal({
 							<Dialog.Panel className="w-full z-50 max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all px-0 pb-[90px]">
 									<Dialog.Title
 										as="h3"
-										className="text-gray-900 text-lg font-medium pb-[27px] flex items-center justify-between px-4"
+										className="text-gray-900 text-lg font-medium pb-4 flex items-center justify-between px-4"
 									>
 										{ title }
 										<XIcon onClick={ closeModal } className="cursor-pointer"/>
