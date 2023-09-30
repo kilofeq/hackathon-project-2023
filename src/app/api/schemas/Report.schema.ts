@@ -1,4 +1,5 @@
 import { Schema, model, models } from 'mongoose';
+import { Animal, animalValues } from '../enums/animalEnum';
 
 const reportSchema = new Schema({
   name: String,
@@ -10,7 +11,7 @@ const reportSchema = new Schema({
     type: Number,
     require: true
   },
-  longtitude: {
+  longitude: {
     type: Number,
     require: true
   },
@@ -20,6 +21,10 @@ const reportSchema = new Schema({
   },
   danger: {
     type: Boolean
+  },
+  animal: {
+    type: String,
+    enum: animalValues
   }
   /**
    To add:
