@@ -3,6 +3,7 @@ import { Fragment, MouseEvent, PropsWithChildren, ReactNode } from "react";
 import { ButtonComponent } from "@/app/components/ButtonComponent/ButtonComponent";
 import { Color } from "@/types/util.types";
 import { XIcon } from "@/assets/xIcon";
+import classNames from "classnames";
 
 type ButtonConfig = {
 	color: Color
@@ -55,7 +56,12 @@ export default function Modal({
 							leaveFrom="opacity-100 scale-100"
 							leaveTo="opacity-0 scale-95"
 						>
-							<Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all pb-[75px] px-0">
+							<Dialog.Panel className={
+								classNames(
+									"w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all px-0 pb-[90px]",
+										{ "pb-0": !button }
+									)
+							}>
 								<Dialog.Title
 									as="h3"
 									className="text-gray-900 text-lg font-medium pb-[27px] flex items-center justify-between px-4"
@@ -71,7 +77,7 @@ export default function Modal({
 									button &&
 									<>
                                         <hr/>
-										<div className="px-4">
+										<div className="px-4 pt-6">
                                             <ButtonComponent
                                                 color={ Color.RED }
                                                 handleClick={ button?.onClick }
