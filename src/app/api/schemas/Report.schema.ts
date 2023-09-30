@@ -1,8 +1,8 @@
 import { Schema, model, models } from 'mongoose';
-import { Animal, animalValues } from '../enums/animalEnum';
+import { Animal } from '../enums/animalEnum';
 
 const reportSchema = new Schema({
-  description:{
+  description: {
     type: String
   },
   photos: {
@@ -28,7 +28,7 @@ const reportSchema = new Schema({
   },
   animal: {
     type: String,
-    enum: animalValues,
+    enum: Animal,
     required: true
   },
   timeOfReport: {
