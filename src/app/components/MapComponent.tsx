@@ -4,6 +4,7 @@ import GoogleMap from 'google-maps-react-markers';
 import { useEffect, useState } from 'react';
 import { InfoMarker } from '@/assets/infoMarker';
 import axios from "axios"
+import {WarningMarker} from "@/assets/warningMarker";
 
 export const MapComponent = (props: {onMapPinClick: (report: any) => void}) => {
 
@@ -40,13 +41,13 @@ export const MapComponent = (props: {onMapPinClick: (report: any) => void}) => {
       >
          {/*@ts-ignore*/}
         {
-          reports?.map(report => {
+          reports?.map((report: any) => {
             // @ts-ignore
-            if (report.latitude && report.longtitude) {
+            if (report.latitude && report.longitude) {
               return (
                 // @ts-ignore
-                <div onClick={() => props.onMapPinClick(report)} key={report._id} lat={report.latitude} lng={report.longtitude} className='-translate-y-full'>
-                  <InfoMarker/>
+                <div onClick={() => props.onMapPinClick(report)} key={report._id} lat={report.latitude} lng={report.longitude} className='-translate-y-full'>
+                  {report.danger ? <WarningMarker/> : <InfoMarker/> }
                 </div>
               )
             }

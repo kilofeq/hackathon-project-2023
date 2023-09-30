@@ -11,7 +11,7 @@ const reportSchema = new Schema({
     type: Number,
     require: true,
   },
-  longtitude: {
+  longitude: {
     type: Number,
     require: true,
   },

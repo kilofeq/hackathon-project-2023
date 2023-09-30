@@ -11,48 +11,14 @@ import { FilterIcon } from "@/assets/filterIcon";
 
 const MapPage = () => {
 
-    const [ isAddReportDialogOpen, toggleAddReportDialogOpen ] = useState(false);
+    const [ isAddReportDialogOpen, setAddReportDialogOpen ] = useState(false);
+    const [ isReportOpen, setReportOpen ] = useState(false);
+    const [currentReport, setCurrentReport] = useState({})
 
-    const handleClick = () => {
-      console.log('doiuadoawondaw')
+    const handleClick = (report: any) => {
+      setCurrentReport(report)
+      setReportOpen(true)
     }
-import { MapComponent } from '@/app/components/MapComponent/MapComponent';
-import { useState } from 'react';
-import Modal from '@/app/components/Modal/Modal';
-import { ButtonComponent } from '@/app/components/Button/Button';
-import { Color } from '@/types/util.types';
-import FileInput from '../components/ImageInput';
-
-function MapPage() {
-  const [isAddReportDialogOpen, toggleAddReportDialogOpen] = useState(false);
-
-  return (
-    <>
-      <div className="relative h-screen w-screen">
-        <MapComponent />
-        <ButtonComponent
-          handleClick={() => toggleAddReportDialogOpen(true)}
-          color={Color.RED}
-        >
-          Zgloś...
-        </ButtonComponent>
-      </div>
-      <Modal
-        isOpen={isAddReportDialogOpen}
-        setIsOpen={() => toggleAddReportDialogOpen((isOpen) => !isOpen)}
-        title="Title"
-        button={{
-          color: Color.RED,
-          text: '',
-        }}
-      >
-        <p>Content</p>
-        <FileInput
-          onDataUrls={(urls) => console.log(urls)}
-        />
-      </Modal>
-    </>
-  );
     return (
         <>
             <div className='relative h-screen w-screen'>
@@ -64,16 +30,17 @@ function MapPage() {
               </IconButton>
                 <MapComponent onMapPinClick={handleClick}/>
                 <ButtonComponent
-                    handleClick={ () => toggleAddReportDialogOpen(true) }
+                    handleClick={ () => setAddReportDialogOpen(true) }
                     color={ Color.RED }
                     className="bottom-5 px-[99px] py-[22px]"
                 >
                     Zgłoś
                 </ButtonComponent>
             </div>
+         <Modal isOpen={isReportOpen} setIsOpen={() => setReportOpen(prevState => !prevState)} title={currentReport.name}/>
             <Modal
                 isOpen={ isAddReportDialogOpen }
-                setIsOpen={ () => toggleAddReportDialogOpen(isOpen => !isOpen) }
+                setIsOpen={ () => setAddReportDialogOpen(isOpen => !isOpen) }
                 title="Dodaj zgłoszenie"
                 button={ {
                     color: Color.RED,

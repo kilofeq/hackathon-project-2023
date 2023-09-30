@@ -1,4 +1,4 @@
-import Report from "schemas/Report.schema";
+import Report from "../schemas/Report.schema";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import connectMongoose from "../helpers/connectMongoose";
