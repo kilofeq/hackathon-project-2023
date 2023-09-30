@@ -11,25 +11,30 @@ const reportSchema = new Schema({
   },
   latitude: {
     type: Number,
-    require: true
+    required: true
   },
   longitude: {
     type: Number,
-    require: true
+    required: true
   },
-  user_ids: {
-    type: Array<Schema.Types.ObjectId>,
+  user_id: {
+    type: Schema.Types.ObjectId,
     ref: 'User',
+    required: true
   },
   danger: {
-    type: Boolean
+    type: Boolean,
+    required: true
   },
   animal: {
     type: String,
-    enum: animalValues
+    enum: animalValues,
+    required: true
   },
   timeOfReport: {
-    type: Date
+    type: Date,
+    default: Date.now(),
+    expires: 3600,
   }
 });
 

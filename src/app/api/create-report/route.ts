@@ -6,6 +6,7 @@ import { Animal, dangerOfAnimal } from '../enums/animalEnum';
 
 interface createReportRequest{
     description?: string,
+    user_id: string,
     photos?: Array<string>,
     latitude: number,
     longitude: number,
@@ -23,10 +24,9 @@ async function handle(request: NextRequest) {
         const reportRecord = new Report({
             ...reportData,
             danger: reportData.danger ?? dangerOfAnimal(reportData.animal),
-            timeOfReport: new Date()
         })
-        console.log(reportRecord);
         await reportRecord.save();
+        console.log(reportRecord);
         return NextResponse.json({}, { status: 200 });
     } catch (error) {
         let message = "An error has occured";
