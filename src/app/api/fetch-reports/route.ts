@@ -11,7 +11,7 @@ type Report = {
   name: string,
   photos: string[],
   latitude: number,
-  longtitude: number,
+  longitude: number,
   userIds: Schema.Types.ObjectId[],
   danger: Boolean,
   animal: Animal,
@@ -46,8 +46,7 @@ const groupReportsV2 = (reports: Report[]) => {
       const similarReports = sortedReports
         .slice(index, sortedReports.length)
         .filter(e => {
-          console.log(isInRange(report.longtitude, report.latitude, e.longtitude, e.latitude))
-          return isInRange(report.longtitude, report.latitude, e.longtitude, e.latitude)
+          return isInRange(report.longitude, report.latitude, e.longitude, e.latitude)
         })
       tempGroupedReports.push([report, ...similarReports])
       ignoredReports = [
@@ -67,6 +66,7 @@ function isInRange(
   centerLongtitude: number,
   centerLatitude: number,
   pointLongtitude: number,
-  pointLatitude: number): boolean {
-  return (Math.pow(Math.abs(pointLatitude - centerLatitude), 2) + Math.pow(Math.abs(pointLongtitude - centerLongtitude), 2)) < RANGE;
+  pointLatitude: number) {
+  console.log(`${Math.pow(Math.abs(pointLatitude - centerLatitude), 2) + Math.pow(Math.abs(pointLongtitude - centerLongtitude), 2) < RANGE}`)  
+  return Math.pow(Math.abs(pointLatitude - centerLatitude), 2) + Math.pow(Math.abs(pointLongtitude - centerLongtitude), 2) < RANGE;
 }
