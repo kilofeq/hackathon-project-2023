@@ -30,6 +30,7 @@ export const MapComponent = (props: {onMapPinClick: (report: any) => void}) => {
         // apiKey = "AIzaSyBwgfFNNWpM4EfH_hA-Lfge3ltdyGteeQ4"
         defaultCenter={{lat: userLocalization.lat, lng: userLocalization.lng}}
         defaultZoom={17}
+
         options={{fullscreenControl: false ,
           rotateControl: false,
           panControl: false,
