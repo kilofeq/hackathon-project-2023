@@ -11,6 +11,7 @@ import SelectComponent from "@/app/components/SelectComponent";
 import ImageInput from "@/app/components/ImageInput";
 import useLocation from "@/app/hooks/useLocation";
 import axios from "axios";
+import { auth } from "../helpers/firebase";
 
 export type AddReportFormType = {
 	name: string
@@ -25,7 +26,6 @@ type Props = {
 const AddReportForm = ({
 	className = "",
 }: Props) => {
-
 	const { lat, lng } = useLocation();
 
 	const formik = useFormik<AddReportFormType>({
@@ -34,7 +34,8 @@ const AddReportForm = ({
 			animalType: null,
 			imagesUrls: [],
 		},
-		onSubmit: values => {
+		onSubmit: async values => {
+			const token = await auth.currentUser?.getIdToken()
 			axios.post("/api/create-report", {
 				name: values.name,
 				photos: values.imagesUrls,
@@ -42,6 +43,10 @@ const AddReportForm = ({
 				longitude: lng,
 				animal: values.animalType,
 				danger: false,
+			}, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
 			})
 		},
 		validate: (values) => {

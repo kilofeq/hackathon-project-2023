@@ -1,7 +1,7 @@
 'use client';
 
 import { MapComponent } from "@/app/components/MapComponent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "@/app/components/Modal/Modal";
 import { ButtonComponent } from "@/app/components/ButtonComponent";
 import { Color } from "@/types/util.types";
@@ -11,9 +11,12 @@ import { FilterIcon } from "@/assets/filterIcon";
 import {PhotoContainer} from "@/app/components/PhotoContainer";
 import AddReportForm from "@/app/components/AddReport.form";
 import {IReport} from "@/types/util.types";
+import { auth } from "../helpers/firebase";
+import { User } from "@firebase/auth";
+import LoginForm from "../components/LoginForm";
 
 const MapPage = () => {
-
+    const [user, setUser] = useState<User | null>(null)
     const [ isAddReportDialogOpen, setAddReportDialogOpen ] = useState(false);
     const [ isReportOpen, setReportOpen ] = useState(false);
     const [currentReport, setCurrentReport] = useState<IReport | null>(null);
@@ -22,6 +25,11 @@ const MapPage = () => {
       setCurrentReport(report)
       setReportOpen(true)
     }
+    useEffect(() => {
+        return auth.onAuthStateChanged((user) => {
+            setUser(user ?? null)
+        })
+    }, [])
 
     return (
         <>
@@ -49,7 +57,11 @@ const MapPage = () => {
                 setIsOpen={ () => setAddReportDialogOpen(isOpen => !isOpen) }
                 title="Dodaj zgłoszenie"
             >
-                <AddReportForm className="px-4"/>
+                {user ? (
+                    <AddReportForm className="px-4"/>
+                ) : (
+                    <LoginForm className="px-4" />
+                )}
             </Modal>
         </>
     )

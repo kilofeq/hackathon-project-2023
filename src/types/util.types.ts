@@ -22,6 +22,7 @@ export enum Color {
 export enum InputType {
 	TEXT = "text",
 	NUMBER = "number",
+	PASSWORD = "password"
 }
 
 export interface IReport {
