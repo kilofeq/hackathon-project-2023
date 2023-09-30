@@ -29,7 +29,8 @@ async function handle(request: NextRequest) {
                 longitude: 19.5 + Math.random()*1.1,
                 animal: animalValues[animalNumber],
                 danger: reportData.danger ?? dangerOfAnimal(animalValues[animalNumber] as Animal),
-                photos: getRandomImage()
+                photos: getRandomImage(),
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
             })
             await report.save();
         }
