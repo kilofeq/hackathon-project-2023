@@ -2,7 +2,9 @@ import { Schema, model, models } from 'mongoose';
 import { Animal, animalValues } from '../enums/animalEnum';
 
 const reportSchema = new Schema({
-  name: String,
+  description:{
+    type: String
+  },
   photos: {
     type: Array<String>,
     default: [],
@@ -25,12 +27,10 @@ const reportSchema = new Schema({
   animal: {
     type: String,
     enum: animalValues
+  },
+  timeOfReport: {
+    type: Date
   }
-  /**
-   To add:
-   Description (could be optional),
-   timeOfReport,
-  */
 });
 
 export default models.Report || model('Report', reportSchema);
