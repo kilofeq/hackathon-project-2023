@@ -1,11 +1,11 @@
 "use client";
 
-import { MapComponent } from "@/app/components/MapComponent/MapComponent";
+import { MapComponent } from "@/app/components/MapComponent";
 import { useState } from "react";
 import Modal from "@/app/components/Modal/Modal";
-import { ButtonComponent } from "@/app/components/ButtonComponent/ButtonComponent";
+import { ButtonComponent } from "@/app/components/ButtonComponent";
 import { Color } from "@/types/util.types";
-import { IconButton } from "@/app/components/IconButton/IconButton";
+import { IconButton } from "@/app/components/IconButton";
 import { MenuIcon } from "@/assets/menuIcon";
 import { FilterIcon } from "@/assets/filterIcon";
 

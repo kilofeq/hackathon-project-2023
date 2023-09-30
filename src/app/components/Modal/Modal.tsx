@@ -1,6 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, MouseEvent, PropsWithChildren, ReactNode } from "react";
-import { ButtonComponent } from "@/app/components/ButtonComponent/ButtonComponent";
+import { ButtonComponent } from "@/app/components/ButtonComponent";
 import { Color } from "@/types/util.types";
 import { XIcon } from "@/assets/xIcon";
 import classNames from "classnames";
