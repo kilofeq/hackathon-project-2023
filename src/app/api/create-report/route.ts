@@ -5,7 +5,7 @@ import connectMongoose from '../helpers/connectMongoose';
 import { Animal, dangerOfAnimal } from '../enums/animalEnum';
 
 interface createReportRequest{
-    name: string,
+    description?: string,
     photos?: Array<string>,
     latitude: number,
     longitude: number,
@@ -22,7 +22,8 @@ async function handle(request: NextRequest) {
         await connectMongoose();
         const reportRecord = new Report({
             ...reportData,
-            danger: reportData.danger ?? dangerOfAnimal(reportData.animal)
+            danger: reportData.danger ?? dangerOfAnimal(reportData.animal),
+            timeOfReport: new Date()
         })
         console.log(reportRecord);
         await reportRecord.save();
