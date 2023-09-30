@@ -24,6 +24,7 @@ async function handle(request: NextRequest) {
             ...reportData,
             danger: reportData.danger ?? dangerOfAnimal(reportData.animal)
         })
+        console.log(reportRecord);
         await reportRecord.save();
         return NextResponse.json({}, { status: 200 });
     } catch (error) {

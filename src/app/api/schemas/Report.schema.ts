@@ -18,8 +18,9 @@ const reportSchema = new Schema({
     type: Array<Schema.Types.ObjectId>,
     ref: 'User',
   },
-  Danger: Boolean,
-  timeOfReport: Date
+  danger: {
+    type: Boolean
+  }
   /**
    To add:
    Description (could be optional),
