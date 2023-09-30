@@ -23,13 +23,9 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "schemas/*": [
-        "./src/app/api/schemas/*"
-      ]
-    }
+      "@/*": ["./src/*"]
+    },
+    "downlevelIteration": true
   },
   "include": [
     "next-env.d.ts",
