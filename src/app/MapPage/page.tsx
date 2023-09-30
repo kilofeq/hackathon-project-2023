@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { MapComponent } from "@/app/components/MapComponent";
 import { useState } from "react";
@@ -16,7 +16,43 @@ const MapPage = () => {
     const handleClick = () => {
       console.log('doiuadoawondaw')
     }
+import { MapComponent } from '@/app/components/MapComponent/MapComponent';
+import { useState } from 'react';
+import Modal from '@/app/components/Modal/Modal';
+import { ButtonComponent } from '@/app/components/Button/Button';
+import { Color } from '@/types/util.types';
+import FileInput from '../components/ImageInput';
 
+function MapPage() {
+  const [isAddReportDialogOpen, toggleAddReportDialogOpen] = useState(false);
+
+  return (
+    <>
+      <div className="relative h-screen w-screen">
+        <MapComponent />
+        <ButtonComponent
+          handleClick={() => toggleAddReportDialogOpen(true)}
+          color={Color.RED}
+        >
+          Zgloś...
+        </ButtonComponent>
+      </div>
+      <Modal
+        isOpen={isAddReportDialogOpen}
+        setIsOpen={() => toggleAddReportDialogOpen((isOpen) => !isOpen)}
+        title="Title"
+        button={{
+          color: Color.RED,
+          text: '',
+        }}
+      >
+        <p>Content</p>
+        <FileInput
+          onDataUrls={(urls) => console.log(urls)}
+        />
+      </Modal>
+    </>
+  );
     return (
         <>
             <div className='relative h-screen w-screen'>
@@ -50,4 +86,4 @@ const MapPage = () => {
     )
 }
 
-export default MapPage
+export default MapPage;
