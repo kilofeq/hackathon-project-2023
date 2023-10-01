@@ -1,16 +1,9 @@
 "use client";
 
-import { useFormik } from "formik";
-import { Animal } from "@/app/api/enums/animalEnum";
 import { Color, InputType, Nullable } from "@/types/util.types";
 import InputComponent from "@/app/components/InputComponent";
 import classNames from "classnames";
 import { ButtonComponent } from "@/app/components/ButtonComponent";
-import { animalToAnimalNameDictionary } from "@/types/dictionaries";
-import SelectComponent from "@/app/components/SelectComponent";
-import ImageInput from "@/app/components/ImageInput";
-import useLocation from "@/app/hooks/useLocation";
-import axios from "axios";
 import { auth } from "../helpers/firebase";
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "@firebase/auth";

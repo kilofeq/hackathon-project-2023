@@ -11,7 +11,6 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { animalToAnimalEmojiDictionary } from "@/types/dictionaries";
 
 export const MapComponent = (props: {onMapPinClick: (report: any) => void, groupedReports: IReport[][],loading: boolean, userLocalization: {lat: number, lng: number} }) => {
-
 	if(!props.loading && (props.userLocalization.lat !== 0 && props.userLocalization.lng !== 0)) {
 		return (
 			<>
