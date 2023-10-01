@@ -1,9 +1,9 @@
 import { Schema, model, models } from 'mongoose';
-import { Animal, animalValues } from '../enums/animalEnum';
+import { Animal } from '../enums/animalEnum';
 
 const reportSchema = new Schema({
-  description:{
-    type: String
+  description: {
+    type: String,
   },
   photos: {
     type: Array<String>,
@@ -11,31 +11,32 @@ const reportSchema = new Schema({
   },
   latitude: {
     type: Number,
-    required: true
+    required: true,
   },
   longitude: {
     type: Number,
-    required: true
+    required: true,
   },
-  user_id: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+  firebaseUid: {
+    type: String,
+    required: true,
   },
   danger: {
     type: Boolean,
-    required: true
+    required: true,
   },
   animal: {
     type: String,
-    enum: animalValues,
-    required: true
+    enum: Animal,
+    required: true,
   },
-  timeOfReport: {
+  createdAt: {
     type: Date,
-    default: Date.now(),
-    expires: 3600,
+  },
+}, {
+  timestamps: {
+    createdAt: 'createdAt'
   }
 });
 
-export default models.Report || model('Report', reportSchema);
+export default models.Report || model("Report", reportSchema);

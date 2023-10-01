@@ -29,7 +29,8 @@
       "schemas/*": [
         "./src/app/api/schemas/*"
       ]
-    }
+    },
+    "downlevelIteration": true
   },
   "include": [
     "next-env.d.ts",
