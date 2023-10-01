@@ -1,4 +1,10 @@
 ### Live version: https://whistle-sigma.vercel.app/
+#### Quick tips: 
+- Click on a pin on a map to see the details about the report
+- Click the "+" button in the bottom right corner to add a new report
+- Login clicking the button below the form, or using login: test@test.pl, password: 123123
+- Upload photos (you can even upload multiple ones)
+
 ### GitHub: https://github.com/kilofeq/hackathon-project-2023
 
 Whistle allows anybody with a phone to report wild or lost animals like:
