@@ -33,13 +33,14 @@ export const MapComponent = (props: {onMapPinClick: (report: any) => void, group
 						defaultZoom={17}
 						loadingContent={null}
 						options={{
+              disableDoubleClickZoom: true,
 							fullscreenControl: false,
 							rotateControl: false,
 							panControl: false,
 							zoomControl: false,
 							streetViewControl: false,
 							mapTypeControl: false,
-							clickableIcons: false
+							clickableIcons: false,
 						}}
 					>
 						{
