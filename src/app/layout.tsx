@@ -8,7 +8,7 @@ config.autoAddCss = false;
 
 
 export const metadata: Metadata = {
-  title: "Whistle",
+  title: "Whistle - Zgłoś znalezionego zwierzaka lub groźne zwierzę w okolicy",
   description: "",
 };
 
