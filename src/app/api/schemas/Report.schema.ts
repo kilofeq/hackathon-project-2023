@@ -38,4 +38,4 @@ const reportSchema = new Schema({
   },
 });
 
-export default models.Report || model('Report', reportSchema);
+export default models.Report || model("Report", reportSchema);

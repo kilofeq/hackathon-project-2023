@@ -1,8 +1,5 @@
 {
-  "extends": [
-    "next/core-web-vitals",
-    "airbnb"
-  ],
+  "extends": ["next/core-web-vitals"],
   "rules": {
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": "off",
@@ -10,5 +7,8 @@
     "import/prefer-default-export": "off",
     "no-restricted-syntax": "off",
     "no-underscore-dangle": "off"
+    "no-await-in-loop": "off",
+    "consistent-return": "off",
+    "react/require-default-props": "off"
   }
 }

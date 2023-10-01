@@ -1,0 +1,93 @@
+'use client';
+
+import GoogleMap from "google-maps-react-markers";
+import { useEffect, useState } from "react";
+import { InfoMarker } from "@/assets/infoMarker";
+import axios from "axios";
+import { WarningMarker } from "@/assets/warningMarker";
+import ClipLoader from "react-spinners/ClipLoader";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+export const MapComponent = (props: {onMapPinClick: (report: any) => void}) => {
+
+	const [userLocalization, setUserLocalization] = useState({ lat: 0, lng: 0 });
+	const [reports, setReports] = useState([])
+	const [loading, setLoading] = useState(true)
+
+	useEffect(() => {
+		navigator.geolocation.getCurrentPosition((loc) => {
+			setUserLocalization({ lat: loc.coords.latitude, lng: loc.coords.longitude });
+		});
+	}, []);
+
+	useEffect(() => {
+		axios.get("/api/fetch-reports").then(r => {
+			setReports(r.data)
+		}).finally(() => {
+			setLoading(false)
+		})
+	}, []);
+	if(!loading) {
+		return (
+			<>
+				<ToastContainer
+					position="bottom-left"
+					autoClose={5000}
+					hideProgressBar={false}
+					newestOnTop={false}
+					closeOnClick
+					rtl={false}
+					pauseOnFocusLoss
+					draggable
+					pauseOnHover
+					theme="light"
+				/>
+				<div className='w-screen h-screen'>
+					<GoogleMap
+						// apiKey = "AIzaSyBwgfFNNWpM4EfH_hA-Lfge3ltdyGteeQ4"
+						defaultCenter={{lat: userLocalization.lat, lng: userLocalization.lng}}
+						defaultZoom={17}
+						loadingContent={null}
+						options={{
+							fullscreenControl: false,
+							rotateControl: false,
+							panControl: false,
+							zoomControl: false,
+							streetViewControl: false,
+							mapTypeControl: false,
+							clickableIcons: false
+						}}
+					>
+						{/*@ts-ignore*/}
+						{
+							reports?.map((report: any) => {
+								// @ts-ignore
+								if (report.latitude && report.longitude) {
+									return (
+										// @ts-ignore
+										<div onClick={() => props.onMapPinClick(report)} key={report._id} lat={report.latitude}
+											 lng={report.longitude} className='-translate-y-full'>
+											{report.danger ? <WarningMarker/> : <InfoMarker/>}
+										</div>
+									)
+								}
+							})
+						}
+					</GoogleMap>
+				</div>
+			</>
+		)
+	} else {
+		return (
+			<div className='h-screen w-screen flex justify-center items-center bg-sky-950 absolute top-0 left-0 z-50'>
+				<ClipLoader
+					loading={true}
+					color={'white'}
+					size={110}
+				/>
+			</div>
+		)
+	}
+
+}
