@@ -112,7 +112,7 @@ const MapPage = () => {
 				<div
 					className="flex items-center justify-between absolute top-0 w-full p-5 z-10"
 				>
-					<IconButton style={"bg-white"}>
+					<IconButton style={"bg-white opacity-0"}>
 						<MenuIcon/>
 					</IconButton>
 					<Image
