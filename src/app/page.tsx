@@ -48,7 +48,11 @@ const MapPage = () => {
   }, []);
 
 	const fetchReports = () => {
-		axios.get("/api/fetch-reports").then(r => {
+		axios.get("/api/fetch-reports", {
+			headers: {
+				'Cache-Control': 'no-cache'
+			}
+		}).then(r => {
       setGroupedReports(r.data)
     }).finally(() => {
       setLoading(false)
@@ -71,6 +75,10 @@ const MapPage = () => {
 			setReportLoading(true)
 			const {data} = await axios.post("/api/fetch-report", {
 				id: report._id
+			}, {
+				headers: {
+					'Cache-Control': 'no-cache'
+				}
 			})
 			setCurrentReport(data)
 		} catch (e) {

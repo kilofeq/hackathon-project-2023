@@ -58,7 +58,8 @@ const AddReportForm = ({
 				description: values.description
 			}, {
 				headers: {
-					Authorization: `Bearer ${token}`
+					Authorization: `Bearer ${token}`,
+					'Cache-Control': 'no-cache'
 				}
 			}).then(() => {
 				if (!onSuccess) return;

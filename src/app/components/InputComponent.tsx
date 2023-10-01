@@ -1,4 +1,5 @@
 import { InputType, Nullable } from "@/types/util.types";
+import classNames from "classnames";
 import { ChangeEvent } from "react";
 
 type Props = {
@@ -11,6 +12,7 @@ type Props = {
 	handleChange: (e: ChangeEvent<HTMLInputElement>) => void
 	placeholder?: string
 	required?: boolean
+	className?: string
 }
 
 const InputComponent = ({
@@ -23,10 +25,14 @@ const InputComponent = ({
 	handleChange,
 	placeholder,
 	required,
+	className,
 }: Props) => {
 
 	return (
-		<div className="flex flex-col gap-1">
+		<div className={classNames(
+			"flex flex-col gap-1",
+			className
+		)}>
 			{
 				label &&
 				<label

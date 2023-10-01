@@ -48,6 +48,7 @@ const LoginForm = ({
 				className="flex flex-col space-y-6 pt-4"
 			>
 				<InputComponent
+					className="max-w-sm w-full"
 					name="email"
 					type={InputType.TEXT}
 					value={email}
@@ -55,6 +56,7 @@ const LoginForm = ({
 					handleChange={e => setEmail(e.target.value)}
 				/>
 				<InputComponent
+					className="max-w-sm w-full"
 					name="password"
 					type={InputType.PASSWORD}
 					value={password}
@@ -66,6 +68,7 @@ const LoginForm = ({
 						className="px-12"
 						color={ Color.RED }
 						submit
+						isLoading={ isLoading }
 					>
 						Zaloguj się
 					</ButtonComponent>
