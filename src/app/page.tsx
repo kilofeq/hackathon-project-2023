@@ -48,6 +48,7 @@ const MapPage = () => {
   }, []);
 
 	const fetchReports = () => {
+		setLoading(true)
 		axios.get("/api/fetch-reports", {
 			headers: {
 				'Cache-Control': 'no-cache'
