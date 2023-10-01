@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { IReport } from "@/types/util.types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { animalToAnimalEmojiDictionary } from "@/types/dictionaries";
 
 export const MapComponent = (props: {onMapPinClick: (report: any) => void, groupedReports: IReport[][],loading: boolean, userLocalization: {lat: number, lng: number} }) => {
 
@@ -52,7 +53,7 @@ export const MapComponent = (props: {onMapPinClick: (report: any) => void, group
 										// @ts-ignore
 										<div onClick={() => props.onMapPinClick(report)} key={report._id} lat={report.latitude}
 											 lng={report.longitude} className='-translate-y-full'>
-											{report.danger ? <WarningMarker/> : <InfoMarker/>}
+											{report.danger ? <WarningMarker>{animalToAnimalEmojiDictionary[report.animal]}</WarningMarker> : <InfoMarker>{animalToAnimalEmojiDictionary[report.animal]}</InfoMarker>}
 										</div>
 									)
 								}
