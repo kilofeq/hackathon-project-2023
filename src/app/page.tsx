@@ -17,6 +17,7 @@ import ReportProfile from "@/app/components/ReportProfile/ReportProfile";
 import { animalToAnimalEmojiDictionary, animalToAnimalNameDictionary } from "@/types/dictionaries";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from 'next/image';
 
 const MapPage = () => {
 	const [user, setUser] = useState<User | null>(null)
@@ -81,12 +82,23 @@ const MapPage = () => {
 						/>
 					</div>
 				)}
-				<IconButton style={"left-5 top-5 bg-white"}>
-					<MenuIcon/>
-				</IconButton>
-				<IconButton style={"right-5 top-5 bg-sky-950"}>
-					<FilterIcon/>
-				</IconButton>
+				<div
+					className="flex items-center justify-between absolute top-0 w-full p-5 z-10"
+				>
+					<IconButton style={"bg-white"}>
+						<MenuIcon/>
+					</IconButton>
+					<Image
+						alt={"WHISTLE"}
+						className="w-48"
+						src="./logo3.svg"
+						width={300}
+						height={100}
+					/>
+					<IconButton style={"bg-sky-950"}>
+						<FilterIcon/>
+					</IconButton>
+				</div>
 				<MapComponent
 						groupedReports={groupedReports}
 						loading={loading}
