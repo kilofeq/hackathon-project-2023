@@ -36,7 +36,7 @@ function SelectComponent({
 				value={ value }
 				name={ name }
 				onChange={ handleChange }
-				className="text-neutral-800 text-base font-normal h-14 p-4 rounded-xl items-center bg-zinc-100 outline-none appearance-none"
+				className="text-neutral-800 text-sm uppercase font-semibold h-14 px-4 py-3 rounded-xl items-center bg-zinc-100 outline-none appearance-none"
 			>
 				{ options.map(({ value, label }, index) => (<option key={ index } value={ value }>{ label }</option>)) }
 			</select>

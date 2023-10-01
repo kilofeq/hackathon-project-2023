@@ -32,7 +32,7 @@ const AddReportForm = ({
 }: Props) => {
 	const options: { label: string, value: string }[] = Object.values(Animal).map((animal) => ({
 		value: animal,
-		label: animalToAnimalNameDictionary[ animal ]
+		label: `${animalToAnimalEmojiDictionary[animal]} ${animalToAnimalNameDictionary[animal]}`
 	}))
 	const { lat, lng } = useLocation();
 
