@@ -19,7 +19,7 @@ export const ButtonComponent = ({
 			className={ classNames([ "h-[55px] bg-red-700 rounded-[70px] shadow gap-2.5 flex items-center justify-center", className]) }
 			style={ { backgroundColor: !disabled ? color : Color.GRAY } }
 			type={ submit ? "submit" : "button" }
-			disabled={disabled}
+			disabled={disabled || isLoading}
 		>
 			{
 				isLoading
