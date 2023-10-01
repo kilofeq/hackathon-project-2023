@@ -105,7 +105,7 @@ const MapPage = () => {
 		return true
 	})).filter(group => group.length > 0)
 	useEffect(() => {
-		setTimeout(() => toast.error('UWAGA DZIK 🚨 ODDAL SIĘ, NIE WYKONUJ GWAŁTOWNYCH RUCHÓW', {
+		setTimeout(() => toast.error('UWAGA DZIK W OKOLICY 🚨 ODDAL SIĘ, NIE WYKONUJ GWAŁTOWNYCH RUCHÓW', {
 			toastId: 'wild-boar',
 		}), 10000)
 	}, [])
