@@ -90,7 +90,7 @@ const MapPage = () => {
 					</IconButton>
 					<Image
 						alt={"WHISTLE"}
-						className="w-48"
+						className="w-16 sm:w-20"
 						src="./logo3.svg"
 						width={300}
 						height={100}
