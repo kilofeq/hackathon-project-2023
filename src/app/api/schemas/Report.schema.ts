@@ -3,7 +3,7 @@ import { Animal } from '../enums/animalEnum';
 
 const reportSchema = new Schema({
   description: {
-    type: String
+    type: String,
   },
   photos: {
     type: Array<String>,
@@ -11,31 +11,31 @@ const reportSchema = new Schema({
   },
   latitude: {
     type: Number,
-    required: true
+    required: true,
   },
   longitude: {
     type: Number,
-    required: true
+    required: true,
   },
   user_id: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-    required: true
+    required: true,
   },
   danger: {
     type: Boolean,
-    required: true
+    required: true,
   },
   animal: {
     type: String,
     enum: Animal,
-    required: true
+    required: true,
   },
   timeOfReport: {
     type: Date,
     default: Date.now(),
     expires: 3600,
-  }
+  },
 });
 
 export default models.Report || model('Report', reportSchema);
