@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "yet-another-react-lightbox/styles.css";
 import { Lightbox } from "yet-another-react-lightbox";
+import classNames from 'classnames'
 
 export const PhotoContainer = ({ images }: { images?: string[]  }) => {
 
@@ -12,7 +13,10 @@ export const PhotoContainer = ({ images }: { images?: string[]  }) => {
 				<img
 					src={url}
 					key={url}
-					className="rounded-xl w-5/6 h-48 object-cover"
+					className={classNames(
+						"rounded-xl h-52 object-cover",
+						images.length > 1 ? "w-5/6":"w-full"
+					)}
 					alt=""
 					onClick={() => setOpenIndex(index)}
 				/>
