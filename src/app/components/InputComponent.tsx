@@ -30,7 +30,7 @@ const InputComponent = ({
 
 	return (
 		<div className={classNames(
-			"flex flex-col gap-1",
+			"flex flex-col gap-1 w-full",
 			className
 		)}>
 			{

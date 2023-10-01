@@ -35,6 +35,16 @@ const LoginForm = ({
 			setIsLoading(false)
 		}
 	}
+	
+	const handleLoginWithoutRegistration = async () => {
+		try {
+			await signInWithEmailAndPassword(auth, 'test@test.pl', '123123');
+		} catch (error) {
+			console.error(error)
+		} finally {
+			setIsLoading(false)
+		}
+	}
 
 	return (
 		<div className={
@@ -48,16 +58,18 @@ const LoginForm = ({
 				className="flex flex-col space-y-6 pt-4"
 			>
 				<InputComponent
-					className="max-w-sm w-full"
+					className="max-w-md w-full"
 					name="email"
 					type={InputType.TEXT}
+					placeholder={"test@test.pl"}
 					value={email}
 					label="E-mail"
 					handleChange={e => setEmail(e.target.value)}
 				/>
 				<InputComponent
-					className="max-w-sm w-full"
+					className="max-w-md w-full"
 					name="password"
+					placeholder={"********"}
 					type={InputType.PASSWORD}
 					value={password}
 					label="Password"
@@ -70,8 +82,19 @@ const LoginForm = ({
 						submit
 						isLoading={ isLoading }
 					>
-						Zaloguj się
+						Zarejestruj się
 					</ButtonComponent>
+				</div>
+				<div
+					className={'w-full h-px bg-neutral-200 my-12'}
+				/>
+				<div className="px-4 pt-2 self-center">
+					<a
+						className="text-blue-500 underline cursor-pointer hover:opacity-70 duration-100"
+						onClick={handleLoginWithoutRegistration}
+					>
+						Zaloguj się bez rejestracji (Na potrzeby demo)
+					</a>
 				</div>
 			</form>
 		</div>
