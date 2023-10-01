@@ -22,7 +22,7 @@ function SingleSideList({ report, onClick }: Props) {
 			<div className="text-[50px]">
 				{ animalToAnimalEmojiDictionary[ report.animal ] }
 			</div>
-			<div className="flex justify-between w-full items-center text-sm font-medium">
+			<div className="flex justify-between w-full leading-5 text-neutral-800 items-center text-sm">
 				{ getDescription() }
 				{
 					report.danger &&
