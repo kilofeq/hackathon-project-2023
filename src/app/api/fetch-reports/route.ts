@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
+import { Schema } from 'mongoose';
 import Report from '../schemas/Report.schema';
 import connectMongoose from '../helpers/connectMongoose';
-import { Animal, animalValues } from '../enums/animalEnum';
-import { NumberExpression, Schema } from 'mongoose';
+import { Animal } from '../enums/animalEnum';
 
 const RANGE = 100;
 
-type Report = {
+type ReportType = {
   _id: string
   name: string,
   photos: string[],
@@ -19,6 +19,53 @@ type Report = {
   timeOfReport: string
 }
 
+const convertToMeters = (degrees: number) => degrees * 100000;
+
+function isInRange(
+  centerLongitude: number,
+  centerLatitude: number,
+  pointLongitude: number,
+  pointLatitude: number,
+) {
+  const centerLatitudeInMeters = convertToMeters(centerLatitude);
+  const pointLatitudeInMeters = convertToMeters(pointLatitude);
+  const centerLongitudeInMeters = convertToMeters(centerLongitude);
+  const pointLongitudeInMeters = convertToMeters(pointLongitude);
+  return Math.abs(pointLatitudeInMeters - centerLatitudeInMeters) ** 2
+  + Math.abs(pointLongitudeInMeters - centerLongitudeInMeters) ** 2 < RANGE * RANGE;
+}
+
+const groupReportsV2 = (reports: ReportType[]) => {
+  let groupedReports: ReportType[][] = [];
+  const animals = [...new Set(reports.map((e) => e.animal))];
+  for (const animal of animals) {
+    const reportsByAnimal = reports.filter((e) => e.animal === animal);
+    const sortedReports = reportsByAnimal.sort(
+      (a, b) => new Date(a.timeOfReport).getTime() - new Date(b.timeOfReport).getTime(),
+    );
+    const tempGroupedReports: ReportType[][] = [];
+    let ignoredReports: number[] = [];
+    sortedReports.forEach((report, index) => {
+      if (ignoredReports.includes(index)) {
+        return;
+      }
+      const similarReports = sortedReports
+        .slice(index, sortedReports.length)
+        .filter((e) => isInRange(report.longitude, report.latitude, e.longitude, e.latitude));
+      tempGroupedReports.push([report, ...similarReports]);
+      ignoredReports = [
+        ...ignoredReports,
+        ...similarReports.map((e) => sortedReports.findIndex((s) => s._id === e._id)),
+      ];
+    });
+    groupedReports = [
+      ...groupedReports,
+      ...tempGroupedReports,
+    ];
+  }
+  return groupedReports;
+};
+
 export const GET = async () => {
   await connectMongoose();
   const reports = await Report.find().select('-photos');
@@ -29,53 +76,3 @@ export const GET = async () => {
     },
   );
 };
-
-
-const groupReportsV2 = (reports: Report[]) => {
-  let groupedReports: Report[][] = [];
-  const animals = [...new Set(reports.map(e => e.animal))]
-  for (const animal of animals) {
-    const reportsByAnimal = reports.filter(e => e.animal === animal)
-    const sortedReports = reportsByAnimal.sort((a, b) => new Date(a.timeOfReport).getTime() - new Date(b.timeOfReport).getTime())
-    let tempGroupedReports: Report[][] = [];
-    let ignoredReports: number[] = [];
-    sortedReports.forEach((report, index) => {
-      if (ignoredReports.includes(index)) {
-        return
-      }
-      const similarReports = sortedReports
-        .slice(index, sortedReports.length)
-        .filter(e => {
-          return isInRange(report.longitude, report.latitude, e.longitude, e.latitude)
-        })
-      tempGroupedReports.push([report, ...similarReports])
-      ignoredReports = [
-        ...ignoredReports,
-        ...similarReports.map(e => sortedReports.findIndex(s => s._id === e._id))
-      ]
-    })
-    groupedReports = [
-      ...groupedReports,
-      ...tempGroupedReports
-    ]
-  }
-  return groupedReports
-}
-
-function isInRange(
-  centerLongitude: number,
-  centerLatitude: number,
-  pointLongitude: number,
-  pointLatitude: number) {
-
-  const centerLatitudeInMeters = convertToMeters(centerLatitude);
-  const pointLatitudeInMeters = convertToMeters(pointLatitude);
-  const centerLongitudeInMeters = convertToMeters(centerLongitude);
-  const pointLongitudeInMeters = convertToMeters(pointLongitude);
-  return Math.pow(Math.abs(pointLatitudeInMeters - centerLatitudeInMeters), 2) 
-  + Math.pow(Math.abs(pointLongitudeInMeters - centerLongitudeInMeters), 2) < RANGE*RANGE;
-}
-
-const convertToMeters = (degrees: number) => {
-  return degrees*100000;
-}
