@@ -24,6 +24,8 @@ import { toast } from "react-toastify";
 import { PlusIcon } from "@/assets/PlusIcon";
 import SideList from "@/app/components/SideList";
 
+export const dynamic = 'force-dynamic';
+
 const MapPage = () => {
 	const [isSideListVisible, setIsSideListVisible] = useState(false)
 	const [user, setUser] = useState<User | null>(null)
