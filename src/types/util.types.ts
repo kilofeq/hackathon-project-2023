@@ -1,5 +1,4 @@
-import {Schema} from "mongoose";
-import {animalValues} from "@/app/api/enums/animalEnum";
+import { Animal } from "@/app/api/enums/animalEnum";
 
 export type EnumDictionary<T extends string | symbol | number, U> = {
 	[K in T]: U;
@@ -27,10 +26,15 @@ export enum InputType {
 
 export interface IReport {
     name: string,
-    photos: string[],
+    photos: Nullable<string[]>,
     latitude: number,
     longitude: number,
     user_ids: string[],
     danger: boolean,
-    animal: string
+    animal: Animal
+}
+
+export type StateConfig<T> = {
+	value: Nullable<T>,
+	isOpen: boolean
 }

@@ -16,7 +16,7 @@ export const ButtonComponent = ({
 	return (
 		<button
 			onClick={ !disabled ? handleClick : undefined }
-			className={ classNames([ "w-[270px] h-[68px] bg-red-700 rounded-[69px] shadow gap-2.5 absolute -translate-x-1/2 left-1/2", className]) }
+			className={ classNames([ "w-[270px] h-[68px] bg-red-700 rounded-[69px] shadow gap-2.5", className]) }
 			style={ { backgroundColor: !disabled ? color : Color.GRAY } }
 			type={ submit ? "submit" : "button" }
 			disabled={disabled}

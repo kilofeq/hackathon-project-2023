@@ -8,8 +8,9 @@ import { WarningMarker } from "@/assets/warningMarker";
 import ClipLoader from "react-spinners/ClipLoader";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { IReport } from "@/types/util.types";
 
-export const MapComponent = (props: {onMapPinClick: (report: any) => void}) => {
+export const MapComponent = (props: {onMapPinClick: (report: IReport) => void}) => {
 
 	const [userLocalization, setUserLocalization] = useState({ lat: 0, lng: 0 });
 	const [reports, setReports] = useState([])
@@ -28,7 +29,7 @@ export const MapComponent = (props: {onMapPinClick: (report: any) => void}) => {
 			setLoading(false)
 		})
 	}, []);
-	if(!loading) {
+	if(!loading && (userLocalization.lat !== 0 && userLocalization.lng !== 0)) {
 		return (
 			<>
 				<ToastContainer
@@ -45,7 +46,7 @@ export const MapComponent = (props: {onMapPinClick: (report: any) => void}) => {
 				/>
 				<div className='w-screen h-screen'>
 					<GoogleMap
-						// apiKey = "AIzaSyBwgfFNNWpM4EfH_hA-Lfge3ltdyGteeQ4"
+						apiKey = "AIzaSyBwgfFNNWpM4EfH_hA-Lfge3ltdyGteeQ4"
 						defaultCenter={{lat: userLocalization.lat, lng: userLocalization.lng}}
 						defaultZoom={17}
 						loadingContent={null}

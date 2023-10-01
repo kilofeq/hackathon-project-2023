@@ -95,7 +95,7 @@ const AddReportForm = ({
 				/>
 				<ImageInput onDataUrls={ urls => formik.setFieldValue("imagesUrls", urls) }/>
 				<hr/>
-				<div className="px-4 pt-6">
+				<div className="px-4 pt-6 flex justify-center">
 					<ButtonComponent
 						color={ Color.RED }
 						submit
