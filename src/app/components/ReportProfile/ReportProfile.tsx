@@ -27,7 +27,7 @@ function ReportProfile({
 
 
 	return (
-		<div className="flex flex-col gap-6 px-4">
+		<div className="flex flex-col gap-6 px-4 pb-3">
 			{ photos && <PhotoContainer images={ photos }/> }
       {description && (
         <div>

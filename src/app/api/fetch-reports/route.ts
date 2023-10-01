@@ -64,7 +64,7 @@ const groupReports = (reports: ReportType[]) => {
   return groupedReports;
 };
 
-export const GET = async () => {
+export const POST = async () => {
   await connectMongoose();
   const reports = await Report.find().select('-photos');
   return NextResponse.json(
