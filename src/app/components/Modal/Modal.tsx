@@ -5,7 +5,8 @@ import { XIcon } from "@/assets/xIcon";
 type Props = {
 	isOpen: boolean
 	setIsOpen: (isOpen: boolean) => void
-	title: ReactNode
+	title: ReactNode,
+	created_at?: string
 }
 
 export default function Modal({
@@ -13,6 +14,7 @@ export default function Modal({
 	setIsOpen,
 	title,
 	children,
+	created_at
 }: PropsWithChildren<Props>) {
 
 	function closeModal() {
@@ -35,7 +37,7 @@ export default function Modal({
 				</Transition.Child>
 
 				<div className="fixed inset-0 overflow-y-auto">
-					<div className="flex min-h-full items-center justify-center p-4 text-center">
+					<div className="flex min-h-full px-4 items-center justify-center text-center">
 						<Transition.Child
 							as={Fragment}
 							enter="ease-out duration-300"
@@ -45,16 +47,16 @@ export default function Modal({
 							leaveFrom="opacity-100 scale-100"
 							leaveTo="opacity-0 scale-95"
 						>
-							<Dialog.Panel className="w-full z-50 max-w-md transform overflow-hidden rounded-3xl bg-white p-6 text-left align-middle shadow-xl transition-all px-0">
+							<Dialog.Panel className="w-full z-50 max-w-md transform overflow-hidden rounded-3xl bg-white text-left align-middle shadow-xl transition-all px-0">
 									<Dialog.Title
 										as="h3"
-										className="text-gray-900 text-base uppercase font-semibold pb-4 flex items-center justify-between pl-4 pr-5"
+										className="text-gray-900 bg-gray-100 text-base uppercase font-semibold py-5 flex items-center justify-between px-6"
 									>
 										{ title }
 										<XIcon onClick={ closeModal } className="cursor-pointer"/>
 									</Dialog.Title>
-									<hr/>
-									<div className="py-2">
+									<p className='text-xs -mt-3 ml-4'>{created_at}</p>
+									<div className="pb-4 pt-5">
 										{ children }
 									</div>
 							</Dialog.Panel>

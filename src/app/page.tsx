@@ -1,29 +1,31 @@
 'use client';
 
 import AddReportForm from "@/app/components/AddReport.form";
-import { ButtonComponent } from "@/app/components/ButtonComponent";
 import { IconButton } from "@/app/components/IconButton";
 import { MapComponent } from "@/app/components/MapComponent";
 import Modal from "@/app/components/Modal/Modal";
-import ReportProfile from "@/app/components/ReportProfile/ReportProfile";
-import { FilterIcon } from "@/assets/filterIcon";
+import { useEffect, useState } from "react";
+import { IReport } from "@/types/util.types";
 import { MenuIcon } from "@/assets/menuIcon";
-import { animalToAnimalEmojiDictionary, animalToAnimalNameDictionary } from "@/types/dictionaries";
-import { Color, IReport } from "@/types/util.types";
+import { FilterIcon } from "@/assets/filterIcon";
+import { auth } from "./helpers/firebase";
 import { User } from "@firebase/auth";
+import LoginForm from "./components/LoginForm";
+import axios from "axios";
+import ReportProfile from "@/app/components/ReportProfile/ReportProfile";
+import { animalToAnimalEmojiDictionary, animalToAnimalNameDictionary } from "@/types/dictionaries";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
-import Image from 'next/image';
-import { useEffect, useState } from "react";
-import { OutputFormat, setDefaults } from 'react-geocode';
+import Image from "next/image";
+import { OutputFormat, setDefaults } from "react-geocode";
 import Switch from "react-switch";
-import { toast } from "react-toastify";
 import { Animal, animalValues } from "./api/enums/animalEnum";
-import LoginForm from "./components/LoginForm";
-import { auth } from "./helpers/firebase";
+import { toast } from "react-toastify";
+import { PlusIcon } from "@/assets/PlusIcon";
+import SideList from "@/app/components/SideList";
 
 const MapPage = () => {
+	const [isSideListVisible, setIsSideListVisible] = useState(false)
 	const [user, setUser] = useState<User | null>(null)
 	const [ isAddReportDialogOpen, setAddReportDialogOpen ] = useState(false);
 	const [userLocalization, setUserLocalization] = useState({ lat: 0, lng: 0 });
@@ -108,9 +110,8 @@ const MapPage = () => {
 
 	return (
 		<>
-			<div className='w-screen h-12 top-0 left-0 right-0 absolute bg-gradient-to-b from-gray-300 z-10'></div>
 			<div
-				className='relative'
+				className='relative flex'
 				style={{
 					height: '100dvh',
 					width: '100dvw'
@@ -128,10 +129,18 @@ const MapPage = () => {
 						/>
 					</div>
 				)}
+				<SideList
+					isOpen={isSideListVisible}
+					setIsOpen={setIsSideListVisible}
+					reports={ filteredReports }
+				/>
 				<div
 					className="flex items-center justify-between absolute top-0 w-full p-5 z-10"
 				>
-					<IconButton style={"bg-white opacity-0"}>
+					<IconButton
+						onClick={() => setIsSideListVisible(true)}
+						style={"bg-white"}
+					>
 						<MenuIcon/>
 					</IconButton>
 					<Image
@@ -148,30 +157,68 @@ const MapPage = () => {
 						<FilterIcon/>
 					</IconButton>
 				</div>
-				<Modal
-					title="Filtry"
-					isOpen={filtersVisibility}
-					setIsOpen={setFiltersVisibility}
+				<MapComponent
+					groupedReports={filteredReports}
+					loading={loading}
+					userLocalization={userLocalization}
+					onMapPinClick={handleOpenReport}
+				/>
+				<IconButton
+					style={"bg-red-700 bottom-5 right-5 absolute"}
+					onClick={() => setAddReportDialogOpen(true)}
 				>
-					<div
-						className="px-4 py-2 flex flex-col space-y-2.5"
-					>
-						{animalValues.map(animal => (
-							<div
-								key={`filter-${animal}`}
-								className="flex items-center"
+					<PlusIcon/>
+				</IconButton>
+			</div>
+
+			{
+				currentReport &&
+                <Modal
+					isOpen
+					setIsOpen={ () => setCurrentReport(null) }
+					title={ `Zgłoszenie: ${ animalToAnimalEmojiDictionary[ currentReport.animal ] } ${ animalToAnimalNameDictionary[ currentReport.animal ] }` }
+				>
+                    <ReportProfile report={currentReport}/>
+                </Modal>
+			}
+			<Modal
+				isOpen={ isAddReportDialogOpen }
+				setIsOpen={ () => setAddReportDialogOpen(isOpen => !isOpen) }
+                title={user ? "Dodaj zgłoszenie" : "Zaloguj się by dodać zgłoszenie"}
+			>
+				{user ? (
+					<AddReportForm className="px-6" onSuccess={ () => {
+						setAddReportDialogOpen(false)
+						fetchReports()
+					} }/>
+				) : (
+					<LoginForm className="px-6" />
+				)}
+			</Modal>
+			<Modal
+				title="Filtry"
+				isOpen={filtersVisibility}
+				setIsOpen={setFiltersVisibility}
+			>
+				<div
+					className="px-6 pb-3 pt-4 flex flex-col space-y-2.5"
+				>
+					{animalValues.map(animal => (
+						<div
+							key={`filter-${animal}`}
+							className="flex items-center"
+						>
+							<Switch
+								checked={animalFilters.includes(animal)}
+								onChange={checked => setAnimalFilters(
+									animalFilters => checked ? [...animalFilters, animal] : animalFilters.filter(a => a !== animal)
+								)}
+								height={29}
+								width={48}
+							/>
+							<span
+								className="text-2xl ml-4"
 							>
-								<Switch
-									checked={animalFilters.includes(animal)}
-									onChange={checked => setAnimalFilters(
-										animalFilters => checked ? [...animalFilters, animal] : animalFilters.filter(a => a !== animal)
-									)}
-									height={29}
-									width={48}
-								/>
-								<span
-									className="text-2xl ml-4"
-								>
 									{animalToAnimalEmojiDictionary[animal]}
 								</span>
 								<span
@@ -220,46 +267,8 @@ const MapPage = () => {
 							>
 								Niestwarzające zagrożenia
 							</span>
-						</div>
 					</div>
-				</Modal>
-				<MapComponent
-						groupedReports={filteredReports}
-						loading={loading}
-						userLocalization={userLocalization}
-						onMapPinClick={handleOpenReport}
-				/>
-				<ButtonComponent
-					handleClick={ () => setAddReportDialogOpen(true) }
-					color={ Color.RED }
-					className="bottom-5 px-20 absolute -translate-x-1/2 left-1/2"
-				>
-					Zgłoś
-				</ButtonComponent>
-			</div>
-			{
-				currentReport &&
-                <Modal
-					isOpen
-					setIsOpen={ () => setCurrentReport(null) }
-					title={ `Zgłoszenie: ${ animalToAnimalEmojiDictionary[ currentReport.animal ] } ${ animalToAnimalNameDictionary[ currentReport.animal ] }` }
-				>
-                    <ReportProfile report={currentReport}/>
-                </Modal>
-			}
-			<Modal
-				isOpen={ isAddReportDialogOpen }
-				setIsOpen={ () => setAddReportDialogOpen(isOpen => !isOpen) }
-                title={user ? "Dodaj zgłoszenie" : "Zaloguj się by dodać zgłoszenie"}
-			>
-				{user ? (
-					<AddReportForm className="px-4" onSuccess={ () => {
-						setAddReportDialogOpen(false)
-						fetchReports()
-					} }/>
-				) : (
-					<LoginForm className="px-4" />
-				)}
+				</div>
 			</Modal>
 		</>
 	)
