@@ -33,7 +33,8 @@ export interface IReport {
 	firebaseUid: string,
 	danger: boolean,
 	animal: Animal
-	description: string
+	description: string,
+	timeOfReport: string
 }
 
 export type StateConfig<T> = {

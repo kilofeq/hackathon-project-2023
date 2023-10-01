@@ -108,7 +108,6 @@ const MapPage = () => {
 
 	return (
 		<>
-			<div className='w-screen h-12 top-0 left-0 right-0 absolute bg-gradient-to-b from-gray-300 z-10'></div>
 			<div
 				className='relative'
 				style={{
@@ -242,6 +241,7 @@ const MapPage = () => {
                 <Modal
 					isOpen
 					setIsOpen={ () => setCurrentReport(null) }
+					created_at={new Date(currentReport.timeOfReport).toDateString()}
 					title={ `Zgłoszenie: ${ animalToAnimalEmojiDictionary[ currentReport.animal ] } ${ animalToAnimalNameDictionary[ currentReport.animal ] }` }
 				>
                     <ReportProfile report={currentReport}/>

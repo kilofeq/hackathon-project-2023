@@ -5,7 +5,8 @@ import { XIcon } from "@/assets/xIcon";
 type Props = {
 	isOpen: boolean
 	setIsOpen: (isOpen: boolean) => void
-	title: ReactNode
+	title: ReactNode,
+	created_at?: string
 }
 
 export default function Modal({
@@ -13,6 +14,7 @@ export default function Modal({
 	setIsOpen,
 	title,
 	children,
+	created_at
 }: PropsWithChildren<Props>) {
 
 	function closeModal() {
@@ -53,6 +55,7 @@ export default function Modal({
 										{ title }
 										<XIcon onClick={ closeModal } className="cursor-pointer"/>
 									</Dialog.Title>
+									<p className='text-xs -mt-3 ml-4'>{created_at}</p>
 									<hr/>
 									<div className="py-2">
 										{ children }
