@@ -2,7 +2,7 @@
 
 import { useFormik } from "formik";
 import { Animal } from "@/app/api/enums/animalEnum";
-import {Color, InputType, IReport, Nullable} from "@/types/util.types";
+import {Color, InputType, IReport} from "@/types/util.types";
 import InputComponent from "@/app/components/InputComponent";
 import classNames from "classnames";
 import { ButtonComponent } from "@/app/components/ButtonComponent";

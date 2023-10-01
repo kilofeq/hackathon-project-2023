@@ -15,6 +15,7 @@ import LoginForm from "../components/LoginForm";
 import axios from "axios";
 import ReportProfile from "@/app/components/ReportProfile/ReportProfile";
 import { animalToAnimalEmojiDictionary, animalToAnimalNameDictionary } from "@/types/dictionaries";
+import {Animal} from "@/app/api/enums/animalEnum";
 
 const MapPage = () => {
     const [user, setUser] = useState<User | null>(null)
@@ -79,10 +80,10 @@ const MapPage = () => {
 			{
 				addReportModal.value &&
                 <Modal
-					isOpen={ addReportModal.isOpen }
-					setIsOpen={ () => setAddReportModal(prevState => ({ ...prevState, isOpen: !prevState.isOpen })) }
-					title={ `Zgłoszenie: ${ animalToAnimalEmojiDictionary[ addReportModal.value.animal ] } ${ animalToAnimalNameDictionary[ addReportModal.value.animal ] }` }
-				>
+                  isOpen={ addReportModal.isOpen }
+                  setIsOpen={ () => setAddReportModal(prevState => ({ ...prevState, isOpen: !prevState.isOpen })) }
+                  title={ `Zgłoszenie: ${ animalToAnimalEmojiDictionary[ addReportModal.value.animal as Animal ] } ${ animalToAnimalNameDictionary[ addReportModal.value.animal as Animal ] }` }
+                >
                     <ReportProfile report={ addReportModal.value }/>
                 </Modal>
 			}

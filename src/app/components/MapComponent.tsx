@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { IReport } from "@/types/util.types";
 
 export const MapComponent = (props: {onMapPinClick: (report: any) => void, groupedReports: IReport[][],loading: boolean, userLocalization: {lat: number, lng: number} }) => {
+
 	if(!props.loading && (props.userLocalization.lat !== 0 && props.userLocalization.lng !== 0)) {
 		return (
 			<>
@@ -26,7 +27,7 @@ export const MapComponent = (props: {onMapPinClick: (report: any) => void, group
 				/>
 				<div className='w-screen h-screen'>
 					<GoogleMap
-						// apiKey = "AIzaSyBwgfFNNWpM4EfH_hA-Lfge3ltdyGteeQ4"
+						apiKey = "AIzaSyBwgfFNNWpM4EfH_hA-Lfge3ltdyGteeQ4"
 						defaultCenter={{lat: props.userLocalization.lat, lng: props.userLocalization.lng}}
 						defaultZoom={17}
 						loadingContent={null}
