@@ -108,6 +108,7 @@ const MapPage = () => {
 
 	return (
 		<>
+			<div className='w-screen h-12 top-0 left-0 right-0 absolute bg-gradient-to-b from-gray-300 z-10'></div>
 			<div
 				className='relative'
 				style={{
@@ -135,7 +136,7 @@ const MapPage = () => {
 					</IconButton>
 					<Image
 						alt={"WHISTLE"}
-						className="w-16 sm:w-20"
+						className="w-16 sm:w-20 z-50"
 						src="./logo3.svg"
 						width={300}
 						height={100}
