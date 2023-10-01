@@ -1,3 +1,5 @@
+<img src="https://i.ibb.co/7WMScmT/logo3.png" width="100" title="hover text">
+
 ### Live version: https://whistle-sigma.vercel.app/
 #### Quick tips: 
 - Click on a pin on a map to see the details about the report
