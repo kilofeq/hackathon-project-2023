@@ -28,7 +28,7 @@ const MapPage = () => {
 	const [isSideListVisible, setIsSideListVisible] = useState(false)
 	const [user, setUser] = useState<User | null>(null)
 	const [ isAddReportDialogOpen, setAddReportDialogOpen ] = useState(false);
-	const [userLocalization, setUserLocalization] = useState({ lat: 0, lng: 0 });
+	const [userLocalization, setUserLocalization] = useState({ lat: 50.06764220851118, lng: 19.991568659296377 });
 	const [groupedReports, setGroupedReports] = useState<IReport[][]>([])
 	const [loading, setLoading] = useState(true)
 	const [reportLoading, setReportLoading] = useState(false)

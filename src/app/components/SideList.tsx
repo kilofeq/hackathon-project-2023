@@ -2,7 +2,6 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { IReport, StateConfig } from "@/types/util.types";
 import classNames from "classnames";
 import SingleSideList from "@/app/components/SingleSideList";
-import { ArrowIcon } from "@/assets/ArrowIcon";
 import Modal from "@/app/components/Modal/Modal";
 import { animalToAnimalEmojiDictionary, animalToAnimalNameDictionary } from "@/types/dictionaries";
 import ReportProfile from "@/app/components/ReportProfile/ReportProfile";
