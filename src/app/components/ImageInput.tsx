@@ -58,6 +58,7 @@ function ImageInput(data?: Props) {
                   src={url}
                   fill
                   className="rounded-2xl"
+                  objectFit='cover'
                 />
                 <button
                   className={classNames(

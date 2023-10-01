@@ -30,9 +30,10 @@ const AddReportForm = ({
 	className = "",
 	onSuccess,
 }: Props) => {
+	const [description, setDescription] = useState("")
 	const options: { label: string, value: string }[] = Object.values(Animal).map((animal) => ({
 		value: animal,
-		label: animalToAnimalNameDictionary[ animal ]
+		label: `${animalToAnimalEmojiDictionary[animal]} ${animalToAnimalNameDictionary[animal]}`
 	}))
 	const { lat, lng } = useLocation();
 
@@ -52,7 +53,8 @@ const AddReportForm = ({
 				longitude: lng,
 				animal: values.animalType,
 				danger: values.danger,
-				firebaseUid: auth.currentUser?.uid
+				firebaseUid: auth.currentUser?.uid,
+				description
 			}, {
 				headers: {
 					Authorization: `Bearer ${token}`
@@ -91,6 +93,14 @@ const AddReportForm = ({
           <input className='w-4 h-4' name='danger' id='danger' type='checkbox' onChange={(e) => formik.setFieldValue('danger', e.target.checked)} checked={ formik.values.danger }/>
         </div>
 				<ImageInput onDataUrls={ urls => formik.setFieldValue("imagesUrls", urls) }/>
+				<InputComponent
+					label="Znaki szczególne, krótki opis"
+					placeholder="np. biały kolor, brak ogona, itp."
+					value={ description }
+					name="description"
+					handleChange={ (e) => setDescription(e.target.value) }
+					type={ InputType.TEXT }
+				/>
 				<hr/>
 				<div className="px-4 pt-6 flex justify-center">
 					<ButtonComponent
