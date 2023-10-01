@@ -68,6 +68,7 @@ const LoginForm = ({
 						className="px-12"
 						color={ Color.RED }
 						submit
+						isLoading={ isLoading }
 					>
 						Zaloguj się
 					</ButtonComponent>
