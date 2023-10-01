@@ -21,8 +21,8 @@ async function handle(request: NextRequest) {
     try {
         await connectMongoose();
         let animalNumber: number;
-        for(let i = 0; i < 200; i++){
-            animalNumber = Math.floor(Math.random() * 3)
+        for(let i = 0; i < 10; i++){
+            animalNumber = Math.floor(Math.random() * animalValues.length)
             const report = new Report({
                 ...reportData,
                 latitude: 49.3 + Math.random()*1.3,
