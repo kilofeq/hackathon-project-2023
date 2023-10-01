@@ -42,7 +42,7 @@ const InputComponent = ({
 				disabled={ disabled }
 				name={ name }
 				onChange={ handleChange }
-				className="text-neutral-800 text-base font-normal h-12 p-4 rounded-xl items-center bg-zinc-100 outline-none"
+				className="text-neutral-800 text-sm font-normal h-12 p-4 rounded-xl items-center bg-zinc-100 outline-none"
 				placeholder={ placeholder }
 			/>
 			{

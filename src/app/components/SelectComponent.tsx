@@ -26,7 +26,7 @@ function SelectComponent({
 		<div className="flex flex-col gap-1">
 			{label && (
 				<label
-					className="text-sm uppercase font-semibold mb-0.5"
+					className="text-xs uppercase font-semibold mb-0.5"
 					htmlFor={ name }
 				>
 					{label}
