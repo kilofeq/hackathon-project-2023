@@ -2,7 +2,7 @@
 
 import { useFormik } from "formik";
 import { Animal } from "@/app/api/enums/animalEnum";
-import {Color, InputType, Nullable} from "@/types/util.types";
+import {Color, InputType, IReport, Nullable} from "@/types/util.types";
 import InputComponent from "@/app/components/InputComponent";
 import classNames from "classnames";
 import { ButtonComponent } from "@/app/components/ButtonComponent";
@@ -25,11 +25,13 @@ export type AddReportFormType = {
 type Props = {
 	className?: string
 	onSuccess?: () => void
+  reports?: IReport[]
 }
 
 const AddReportForm = ({
 	className = "",
 	onSuccess,
+  reports
 }: Props) => {
 	const options: { label: string, value: string }[] = Object.values(Animal).map((animal) => ({
 		value: animal,
@@ -61,7 +63,16 @@ const AddReportForm = ({
 				}
 			}).then(() => {
 				if (!onSuccess) return;
-				onSuccess();
+        reports?.push({
+          name: formik.values.name,
+          photos: formik.values.imagesUrls,
+          latitude: lat,
+          longitude: lng,
+          animal: formik.values.animalType,
+          danger: formik.values.danger,
+          user_ids: ["dupa"]
+        })
+        onSuccess();
 				toast(`${ animalToAnimalEmojiDictionary[ formik.values.animalType ] } Pomyślnie dodano zgłoszenie`)
 			}).finally(() => {
 				setIsAddingMarker(false);

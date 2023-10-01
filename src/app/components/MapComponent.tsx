@@ -1,34 +1,16 @@
 'use client';
 
 import GoogleMap from "google-maps-react-markers";
-import { useEffect, useState } from "react";
 import { InfoMarker } from "@/assets/infoMarker";
-import axios from "axios";
 import { WarningMarker } from "@/assets/warningMarker";
 import ClipLoader from "react-spinners/ClipLoader";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {IReport} from "@/types/util.types";
 
-export const MapComponent = (props: {onMapPinClick: (report: any) => void}) => {
-
-	const [userLocalization, setUserLocalization] = useState({ lat: 0, lng: 0 });
-	const [reports, setReports] = useState([])
-	const [loading, setLoading] = useState(true)
-
-	useEffect(() => {
-		navigator.geolocation.getCurrentPosition((loc) => {
-			setUserLocalization({ lat: loc.coords.latitude, lng: loc.coords.longitude });
-		});
-	}, []);
-
-	useEffect(() => {
-		axios.get("/api/fetch-reports").then(r => {
-			setReports(r.data)
-		}).finally(() => {
-			setLoading(false)
-		})
-	}, []);
-	if(!loading) {
+export const MapComponent = (props: {onMapPinClick: (report: any) => void, reports: IReport[],loading: boolean, userLocalization: {lat: number, lng: number} }) => {
+  console.log(props.reports)
+	if(!props.loading && (props.userLocalization.lat !== 0 && props.userLocalization.lng !== 0)) {
 		return (
 			<>
 				<ToastContainer
@@ -46,7 +28,7 @@ export const MapComponent = (props: {onMapPinClick: (report: any) => void}) => {
 				<div className='w-screen h-screen'>
 					<GoogleMap
 						// apiKey = "AIzaSyBwgfFNNWpM4EfH_hA-Lfge3ltdyGteeQ4"
-						defaultCenter={{lat: userLocalization.lat, lng: userLocalization.lng}}
+						defaultCenter={{lat: props.userLocalization.lat, lng: props.userLocalization.lng}}
 						defaultZoom={17}
 						loadingContent={null}
 						options={{
@@ -61,7 +43,7 @@ export const MapComponent = (props: {onMapPinClick: (report: any) => void}) => {
 					>
 						{/*@ts-ignore*/}
 						{
-							reports?.map((report: any) => {
+							props.reports?.map((report: IReport) => {
 								// @ts-ignore
 								if (report.latitude && report.longitude) {
 									return (

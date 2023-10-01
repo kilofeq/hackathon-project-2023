@@ -14,12 +14,31 @@ import {IReport} from "@/types/util.types";
 import { auth } from "../helpers/firebase";
 import { User } from "@firebase/auth";
 import LoginForm from "../components/LoginForm";
+import axios from "axios";
 
 const MapPage = () => {
     const [user, setUser] = useState<User | null>(null)
     const [ isAddReportDialogOpen, setAddReportDialogOpen ] = useState(false);
     const [ isReportOpen, setReportOpen ] = useState(false);
     const [currentReport, setCurrentReport] = useState<IReport | null>(null);
+    const [userLocalization, setUserLocalization] = useState({ lat: 0, lng: 0 });
+    const [reports, setReports] = useState<IReport[]>([])
+    const [loading, setLoading] = useState(true)
+
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((loc) => {
+      setUserLocalization({ lat: loc.coords.latitude, lng: loc.coords.longitude });
+    });
+  }, []);
+
+  useEffect(() => {
+    axios.get("/api/fetch-reports").then(r => {
+      setReports(r.data)
+    }).finally(() => {
+      setLoading(false)
+    })
+  }, []);
 
     const handleClick = (report: any) => {
       setCurrentReport(report)
@@ -40,7 +59,7 @@ const MapPage = () => {
               <IconButton style={"right-5 top-5 bg-sky-950"}>
                 <FilterIcon/>
               </IconButton>
-                <MapComponent onMapPinClick={handleClick}/>
+                <MapComponent loading={loading} reports={reports} userLocalization={userLocalization} onMapPinClick={handleClick}/>
                 <ButtonComponent
                     handleClick={ () => setAddReportDialogOpen(true) }
                     color={ Color.RED }
@@ -58,7 +77,7 @@ const MapPage = () => {
                 title={user ? "Dodaj zgłoszenie" : "Zaloguj się by dodać zgłoszenie"}
             >
                 {user ? (
-                    <AddReportForm className="px-4" onSuccess={ () => setAddReportDialogOpen(false) }/>
+                    <AddReportForm className="px-4" reports={reports} onSuccess={ () => setAddReportDialogOpen(false) }/>
                 ) : (
                     <LoginForm className="px-4" />
                 )}
