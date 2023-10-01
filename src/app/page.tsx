@@ -24,6 +24,8 @@ import { toast } from "react-toastify";
 import { PlusIcon } from "@/assets/PlusIcon";
 import SideList from "@/app/components/SideList";
 
+export const dynamic = 'force-dynamic';
+
 const MapPage = () => {
 	const [isSideListVisible, setIsSideListVisible] = useState(false)
 	const [user, setUser] = useState<User | null>(null)
@@ -51,7 +53,7 @@ const MapPage = () => {
   }, []);
 
 	const fetchReports = () => {
-		axios.get("/api/fetch-reports", {
+		axios.post("/api/fetch-reports", {}, {
 			headers: {
 				'Cache-Control': 'no-cache'
 			}

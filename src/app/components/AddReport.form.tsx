@@ -75,7 +75,7 @@ const AddReportForm = ({
 	return (
 		<div className={
 			classNames(
-				"flex flex-col gap-[13px] pt-4",
+				"flex flex-col gap-[13px] pt-4 pb-3",
 				className
 			)
 		}>
