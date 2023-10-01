@@ -37,7 +37,7 @@ const MapPage = () => {
 
   setDefaults({
     key: "AIzaSyBwgfFNNWpM4EfH_hA-Lfge3ltdyGteeQ4",
-    language: "en",
+    language: "pl",
     region: "pl",
     outputFormat: OutputFormat.JSON
   });
