@@ -12,7 +12,8 @@ export const PhotoContainer = ({ images }: { images?: string[]  }) => {
 				<img
 					src={url}
 					key={url}
-					className="rounded-xl w-5/6 h-48 object-cover"
+
+					className={images.length > 1 ? "rounded-xl w-5/6 h-48 object-cover" : "rounded-xl w-5/6 h-48 object-cover mx-auto"}
 					alt=""
 					onClick={() => setOpenIndex(index)}
 				/>
