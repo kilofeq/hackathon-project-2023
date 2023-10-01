@@ -24,10 +24,14 @@ function SelectComponent({
 
 	return (
 		<div className="flex flex-col gap-1">
-			{
-				label &&
-                <label htmlFor={ name }></label>
-			}
+			{label && (
+				<label
+					className="text-sm uppercase font-semibold mb-0.5"
+					htmlFor={ name }
+				>
+					{label}
+				</label>
+			)}
 			<select
 				value={ value }
 				name={ name }

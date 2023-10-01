@@ -14,9 +14,6 @@ function ReportProfile({
 	return (
 		<div className="flex flex-col gap-6 px-4">
 			{ photos && <PhotoContainer images={ photos }/> }
-			<p className="text-gray-500 text-sm font-medium">
-				{ name }
-			</p>
 		</div>
 	);
 }

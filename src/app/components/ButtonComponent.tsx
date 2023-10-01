@@ -16,7 +16,7 @@ export const ButtonComponent = ({
 	return (
 		<button
 			onClick={ !disabled ? handleClick : undefined }
-			className={ classNames([ "w-[270px] h-[68px] bg-red-700 rounded-[69px] shadow gap-2.5", className]) }
+			className={ classNames([ "h-[55px] bg-red-700 rounded-[70px] shadow gap-2.5 flex items-center justify-center", className]) }
 			style={ { backgroundColor: !disabled ? color : Color.GRAY } }
 			type={ submit ? "submit" : "button" }
 			disabled={disabled}
@@ -26,7 +26,7 @@ export const ButtonComponent = ({
 					?
 					<PropagateLoader size={ 8 } color="#fff" className=" transform translate-y-[-3px]"/>
 					:
-					<div className="text-white text-xl font-['SF Pro']">
+					<div className="text-white text-xl">
 						{ children }
 					</div>
 			}

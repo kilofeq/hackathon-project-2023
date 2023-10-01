@@ -96,7 +96,7 @@ const MapPage = () => {
 				<ButtonComponent
 					handleClick={ () => setAddReportDialogOpen(true) }
 					color={ Color.RED }
-					className="bottom-5 px-[99px] py-[22px] absolute -translate-x-1/2 left-1/2"
+					className="bottom-5 px-20 absolute -translate-x-1/2 left-1/2"
 				>
 					Zgłoś
 				</ButtonComponent>

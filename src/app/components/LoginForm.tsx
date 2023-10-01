@@ -63,6 +63,7 @@ const LoginForm = ({
 				/>
 				<div className="px-4 pt-2">
 					<ButtonComponent
+						className="px-12"
 						color={ Color.RED }
 						submit
 					>

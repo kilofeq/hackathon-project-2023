@@ -9,7 +9,6 @@ const RANGE = 100;
 
 type ReportType = {
   _id: string
-  name: string,
   photos: string[],
   latitude: number,
   longitude: number,

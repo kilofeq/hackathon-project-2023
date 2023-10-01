@@ -45,10 +45,10 @@ export default function Modal({
 							leaveFrom="opacity-100 scale-100"
 							leaveTo="opacity-0 scale-95"
 						>
-							<Dialog.Panel className="w-full z-50 max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all px-0 p]">
+							<Dialog.Panel className="w-full z-50 max-w-md transform overflow-hidden rounded-3xl bg-white p-6 text-left align-middle shadow-xl transition-all px-0">
 									<Dialog.Title
 										as="h3"
-										className="text-gray-900 text-lg font-medium pb-4 flex items-center justify-between px-4"
+										className="text-gray-900 text-base uppercase font-semibold pb-4 flex items-center justify-between pl-4 pr-5"
 									>
 										{ title }
 										<XIcon onClick={ closeModal } className="cursor-pointer"/>
