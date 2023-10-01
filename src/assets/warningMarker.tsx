@@ -10,10 +10,11 @@ export const WarningMarker = ({children}: {children: ReactNode}) => {
       }}
     >
       <span
-        className="absolute text-xl transform -translate-x-1/2"
+        className="absolute text-xl"
         style={{
           left: "50%",
-          marginTop: 3
+          marginTop: 3,
+          transform: 'translateX(-50%)'
         }}
       >
         {children}
