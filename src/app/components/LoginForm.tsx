@@ -81,9 +81,9 @@ const LoginForm = ({
 				<div
 					className={'w-full h-px bg-neutral-200 my-12'}
 				/>
-				<div className="px-4 pt-2 self-center">
+				<div className="px-4 pb-4 pt-2 self-center">
 					<a
-						className="text-blue-500 underline cursor-pointer hover:opacity-70 duration-100"
+						className="text-blue-600 font-bold underline cursor-pointer hover:opacity-70 duration-100"
 						onClick={handleLoginWithoutRegistration}
 					>
 						Zaloguj się bez rejestracji (Na potrzeby demo)
