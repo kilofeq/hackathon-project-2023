@@ -3,10 +3,11 @@
 import GoogleMap from "google-maps-react-markers";
 import { InfoMarker } from "@/assets/infoMarker";
 import { WarningMarker } from "@/assets/warningMarker";
-import ClipLoader from "react-spinners/ClipLoader";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { IReport } from "@/types/util.types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 export const MapComponent = (props: {onMapPinClick: (report: any) => void, groupedReports: IReport[][],loading: boolean, userLocalization: {lat: number, lng: number} }) => {
 
@@ -62,10 +63,11 @@ export const MapComponent = (props: {onMapPinClick: (report: any) => void, group
 	} else {
 		return (
 			<div className='h-screen w-screen flex justify-center items-center bg-sky-950 absolute top-0 left-0 z-50'>
-				<ClipLoader
-					loading={true}
-					color={'white'}
-					size={110}
+				<FontAwesomeIcon
+					className="animate-spin"
+					icon={faSpinner}
+					size="5x"
+					color="white"
 				/>
 			</div>
 		)

@@ -7,7 +7,7 @@ export const PhotoContainer = ({ images }: { images?: string[]  }) => {
 	const [openIndex, setOpenIndex] = useState<number>(-1);
 
 	return (
-		<div className="flex flex-row overflow-scroll gap-4 pl-4">
+		<div className="flex flex-row overflow-scroll gap-4 mt-4">
 			{images?.map((url, index) => (
 				<img
 					src={url}
