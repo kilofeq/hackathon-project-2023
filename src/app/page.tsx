@@ -1,13 +1,14 @@
 'use client';
 
-import { MapComponent } from "@/app/components/MapComponent";
-import { useEffect, useState } from "react";
-import Modal from "@/app/components/Modal/Modal";
-import { IReport } from "@/types/util.types";
+import AddReportForm from "@/app/components/AddReport.form";
+import { ButtonComponent } from "@/app/components/ButtonComponent";
 import { IconButton } from "@/app/components/IconButton";
+import { MapComponent } from "@/app/components/MapComponent";
+import Modal from "@/app/components/Modal/Modal";
+import { useEffect, useState } from "react";
+import { Color, IReport } from "@/types/util.types";
 import { MenuIcon } from "@/assets/menuIcon";
 import { FilterIcon } from "@/assets/filterIcon";
-import AddReportForm from "@/app/components/AddReport.form";
 import { auth } from "./helpers/firebase";
 import { User } from "@firebase/auth";
 import LoginForm from "./components/LoginForm";
@@ -17,11 +18,10 @@ import { animalToAnimalEmojiDictionary, animalToAnimalNameDictionary } from "@/t
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
-import { Animal, animalValues } from "./api/enums/animalEnum";
-import Switch from "react-switch";
 import { OutputFormat, setDefaults } from "react-geocode";
-import SideList from "@/app/components/SideList";
-import { PlusIcon } from "@/assets/PlusIcon";
+import Switch from "react-switch";
+import { Animal, animalValues } from "./api/enums/animalEnum";
+import { toast } from "react-toastify";
 
 const MapPage = () => {
 	const [user, setUser] = useState<User | null>(null)
@@ -37,7 +37,7 @@ const MapPage = () => {
 
   setDefaults({
     key: "AIzaSyBwgfFNNWpM4EfH_hA-Lfge3ltdyGteeQ4",
-    language: "en",
+    language: "pl",
     region: "pl",
     outputFormat: OutputFormat.JSON
   });
@@ -49,7 +49,11 @@ const MapPage = () => {
   }, []);
 
 	const fetchReports = () => {
-		axios.get("/api/fetch-reports").then(r => {
+		axios.get("/api/fetch-reports", {
+			headers: {
+				'Cache-Control': 'no-cache'
+			}
+		}).then(r => {
       setGroupedReports(r.data)
     }).finally(() => {
       setLoading(false)
@@ -72,6 +76,10 @@ const MapPage = () => {
 			setReportLoading(true)
 			const {data} = await axios.post("/api/fetch-report", {
 				id: report._id
+			}, {
+				headers: {
+					'Cache-Control': 'no-cache'
+				}
 			})
 			setCurrentReport(data)
 		} catch (e) {
@@ -92,6 +100,11 @@ const MapPage = () => {
 		}
 		return true
 	})).filter(group => group.length > 0)
+	useEffect(() => {
+		setTimeout(() => toast.error('UWAGA DZIK 🚨 ODDAL SIĘ, NIE WYKONUJ GWAŁTOWNYCH RUCHÓW', {
+			toastId: 'wild-boar',
+		}), 10000)
+	}, [])
 
 	return (
 		<>
@@ -123,7 +136,7 @@ const MapPage = () => {
 					</IconButton>
 					<Image
 						alt={"WHISTLE"}
-						className="w-16 sm:w-20"
+						className="w-16 sm:w-20 z-50"
 						src="./logo3.svg"
 						width={300}
 						height={100}
@@ -199,50 +212,50 @@ const MapPage = () => {
 							>
 									{animalToAnimalEmojiDictionary[animal]}
 								</span>
+								<span
+									className="text-sm font-semibold ml-2 uppercase"
+								>
+									{animalToAnimalNameDictionary[animal]}
+								</span>
+							</div>
+						))}
+						<div
+							className="flex items-center"
+						>
+							<Switch
+								checked={isDangerous}
+								onChange={setIsDangerous}
+								height={29}
+								width={48}
+							/>
+							<span
+								className="text-2xl ml-4"
+							>
+								⛔️
+							</span>
 							<span
 								className="text-sm font-semibold ml-2 uppercase"
 							>
-									{animalToAnimalNameDictionary[animal]}
-								</span>
-						</div>
-					))}
-					<div
-						className="flex items-center"
-					>
-						<Switch
-							checked={isDangerous}
-							onChange={setIsDangerous}
-							height={29}
-							width={48}
-						/>
-						<span
-							className="text-2xl ml-4"
-						>
-								⛔️
-							</span>
-						<span
-							className="text-sm font-semibold ml-2 uppercase"
-						>
 								Tylko niebezpieczne
 							</span>
-					</div>
-					<div
-						className="flex items-center"
-					>
-						<Switch
-							checked={isSafe}
-							onChange={setIsSafe}
-							height={29}
-							width={48}
-						/>
-						<span
-							className="text-2xl ml-4"
+						</div>
+						<div
+							className="flex items-center"
 						>
+							<Switch
+								checked={isSafe}
+								onChange={setIsSafe}
+								height={29}
+								width={48}
+							/>
+							<span
+								className="text-2xl ml-4"
+							>
 								✅
 							</span>
-						<span
-							className="text-sm font-semibold ml-2 uppercase"
-						>
+							<span
+								className="text-sm font-semibold ml-2 uppercase"
+							>
 								Niestwarzające zagrożenia
 							</span>
 					</div>

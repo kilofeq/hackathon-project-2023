@@ -1,6 +1,6 @@
 import { InputType, Nullable } from "@/types/util.types";
-import { ChangeEvent, ReactNode } from "react";
 import classNames from "classnames";
+import { ChangeEvent, ReactNode } from "react";
 
 type Props = {
 	name: string
@@ -28,10 +28,14 @@ const InputComponent = ({
 	required,
 	icon,
 	className,
+	className,
 }: Props) => {
 
 	return (
-		<div className={ classNames("flex flex-col gap-1", className) }>
+		<div className={classNames(
+			"flex flex-col gap-1 w-full",
+			className
+		)}>
 			{
 				label &&
 				<label

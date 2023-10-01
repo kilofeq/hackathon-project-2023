@@ -32,6 +32,7 @@ const reportSchema = new Schema({
   },
   createdAt: {
     type: Date,
+    expires: 3600
   },
 }, {
   timestamps: {

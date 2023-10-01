@@ -16,7 +16,7 @@ export const MapComponent = (props: {onMapPinClick: (report: any) => void, group
 			<>
 				<ToastContainer
 					position="bottom-left"
-					autoClose={5000}
+					autoClose={10000}
 					hideProgressBar={false}
 					newestOnTop={false}
 					closeOnClick
@@ -30,7 +30,7 @@ export const MapComponent = (props: {onMapPinClick: (report: any) => void, group
 					<GoogleMap
 						apiKey = "AIzaSyBwgfFNNWpM4EfH_hA-Lfge3ltdyGteeQ4"
 						defaultCenter={{lat: props.userLocalization.lat, lng: props.userLocalization.lng}}
-						defaultZoom={17}
+						defaultZoom={13}
 						loadingContent={null}
 						options={{
 						 	disableDoubleClickZoom: true,

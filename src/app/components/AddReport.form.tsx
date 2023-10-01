@@ -58,7 +58,8 @@ const AddReportForm = ({
 				description: values.description
 			}, {
 				headers: {
-					Authorization: `Bearer ${token}`
+					Authorization: `Bearer ${token}`,
+					'Cache-Control': 'no-cache'
 				}
 			}).then(() => {
 				if (!onSuccess) return;
@@ -103,9 +104,9 @@ const AddReportForm = ({
 					type={ InputType.TEXT }
 				/>
 				<hr/>
-				<div className="px-4 pt-6 flex justify-center">
+				<div className="self-center px-4 pt-6 flex justify-center">
 					<ButtonComponent
-						className="px-12"
+						className="px-12 w-64"
 						color={ Color.RED }
 						submit
 						isLoading={ isAddingMarker }
