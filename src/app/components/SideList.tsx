@@ -64,6 +64,7 @@ function SideList({ reports, isOpen, setIsOpen }: Props) {
 							classNames(
 								'w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-red-700 p-2 cursor-pointer',
 								'ring-white ring-opacity-60 ring-offset-2 ring-offset-red-400 focus:outline-none focus:ring-2',
+								"flex items-center justify-center",
 								currentTab === Tab.ALL_REPORTS
 									? 'bg-white shadow'
 									: 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
@@ -78,6 +79,7 @@ function SideList({ reports, isOpen, setIsOpen }: Props) {
 							classNames(
 								'w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-red-700 p-2 cursor-pointer',
 								'ring-white ring-opacity-60 ring-offset-2 ring-offset-red-400 focus:outline-none focus:ring-2',
+								"flex items-center justify-center",
 								currentTab === Tab.DANGER_REPORTS
 									? 'bg-white shadow'
 									: 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
