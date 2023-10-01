@@ -96,7 +96,13 @@ const MapPage = () => {
 
 	return (
 		<>
-			<div className='relative h-screen w-screen'>
+			<div
+				className='relative'
+				style={{
+					height: '100dvh',
+					width: '100dvw'
+				}}
+			>
 				{reportLoading && (
 					<div
 						className="fixed w-full h-full z-30 bg-black bg-opacity-50 flex items-center justify-center"
