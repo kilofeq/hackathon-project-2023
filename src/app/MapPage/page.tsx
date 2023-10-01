@@ -55,7 +55,7 @@ const MapPage = () => {
             <Modal
                 isOpen={ isAddReportDialogOpen }
                 setIsOpen={ () => setAddReportDialogOpen(isOpen => !isOpen) }
-                title="Dodaj zgłoszenie"
+                title={user ? "Dodaj zgłoszenie" : "Zaloguj się by dodać zgłoszenie"}
             >
                 {user ? (
                     <AddReportForm className="px-4" onSuccess={ () => setAddReportDialogOpen(false) }/>

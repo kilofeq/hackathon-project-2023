@@ -89,4 +89,5 @@ export const MapComponent = (props: {onMapPinClick: (report: any) => void}) => {
 			</div>
 		)
 	}
+
 }
