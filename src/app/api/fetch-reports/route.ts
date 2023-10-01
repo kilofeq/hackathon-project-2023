@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { Schema } from 'mongoose';
+import distance from 'euclidean-distance';
 import Report from '../schemas/Report.schema';
 import connectMongoose from '../helpers/connectMongoose';
 import { Animal } from '../enums/animalEnum';
@@ -19,20 +20,16 @@ type ReportType = {
   timeOfReport: string
 }
 
-const convertToMeters = (degrees: number) => degrees * 100000;
-
 function isInRange(
   centerLongitude: number,
   centerLatitude: number,
   pointLongitude: number,
   pointLatitude: number,
 ) {
-  const centerLatitudeInMeters = convertToMeters(centerLatitude);
-  const pointLatitudeInMeters = convertToMeters(pointLatitude);
-  const centerLongitudeInMeters = convertToMeters(centerLongitude);
-  const pointLongitudeInMeters = convertToMeters(pointLongitude);
-  return Math.abs(pointLatitudeInMeters - centerLatitudeInMeters) ** 2
-  + Math.abs(pointLongitudeInMeters - centerLongitudeInMeters) ** 2 < RANGE * RANGE;
+  const center = [centerLongitude, centerLatitude];
+  const point = [pointLongitude, pointLatitude];
+  const vectorDistance = distance(center, point) * 110000;
+  return vectorDistance < RANGE;
 }
 
 const groupReports = (reports: ReportType[]) => {
