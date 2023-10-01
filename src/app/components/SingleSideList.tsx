@@ -1,6 +1,5 @@
 import { IReport } from "@/types/util.types";
 import { animalToAnimalEmojiDictionary } from "@/types/dictionaries";
-import { PhotoContainer } from "./PhotoContainer";
 
 type Props = {
 	report: IReport
@@ -17,13 +16,11 @@ function SingleSideList({ report, onClick }: Props) {
 		}
 		return report.description
 	}
-	console.log(report)
 	return (
-		<div className="flex items-center gap-2 w-full px-3 py-1" onClick={ () => onClick(report) }>
+		<div className="flex items-center gap-2 w-full px-3 py-2" onClick={ () => onClick(report) }>
 			<div className="text-[50px]">
 				{ animalToAnimalEmojiDictionary[ report.animal ] }
 			</div>
-			{ report.photos && <PhotoContainer images={ report.photos }/> }
 			<div className="flex justify-between w-full items-center text-sm font-medium">
 				{ getDescription() }
 				{
