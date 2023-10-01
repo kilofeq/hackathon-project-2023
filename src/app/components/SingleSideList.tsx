@@ -17,9 +17,8 @@ function SingleSideList({ report, onClick }: Props) {
 		}
 		return report.description
 	}
-	console.log(report)
 	return (
-		<div className="flex items-center gap-2 w-full px-3 py-1" onClick={ () => onClick(report) }>
+		<div className="flex items-center gap-2 w-full px-3 py-2" onClick={ () => onClick(report) }>
 			<div className="text-[50px]">
 				{ animalToAnimalEmojiDictionary[ report.animal ] }
 			</div>

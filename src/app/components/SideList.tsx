@@ -119,6 +119,9 @@ function SideList({ reports, isOpen, setIsOpen }: Props) {
 						</div>
 					}
                 >
+										<div
+											className="h-4"
+										/>
                     <ReportProfile report={ currentReport.value }/>
                 </Modal>
 			}
