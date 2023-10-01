@@ -136,10 +136,10 @@ const MapPage = () => {
 					</IconButton>
 					<Image
 						alt={"WHISTLE"}
-						className="w-16 sm:w-20 z-50"
+						className="w-16 sm:w-18 z-50"
 						src="./logo3.svg"
-						width={300}
-						height={100}
+						width={200}
+						height={66}
 					/>
 					<IconButton
 						style={"bg-sky-950"}
