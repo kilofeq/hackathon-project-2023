@@ -92,8 +92,6 @@ const MapPage = () => {
 		return true
 	})).filter(group => group.length > 0)
 
-
-
 	return (
 		<>
 			<div
