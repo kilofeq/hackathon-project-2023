@@ -35,7 +35,7 @@ function isInRange(
   + Math.abs(pointLongitudeInMeters - centerLongitudeInMeters) ** 2 < RANGE * RANGE;
 }
 
-const groupReportsV2 = (reports: ReportType[]) => {
+const groupReports = (reports: ReportType[]) => {
   let groupedReports: ReportType[][] = [];
   const animals = [...new Set(reports.map((e) => e.animal))];
   for (const animal of animals) {
@@ -50,7 +50,7 @@ const groupReportsV2 = (reports: ReportType[]) => {
         return;
       }
       const similarReports = sortedReports
-        .slice(index, sortedReports.length)
+        .slice(index + 1, sortedReports.length)
         .filter((e) => isInRange(report.longitude, report.latitude, e.longitude, e.latitude));
       tempGroupedReports.push([report, ...similarReports]);
       ignoredReports = [
@@ -70,7 +70,7 @@ export const GET = async () => {
   await connectMongoose();
   const reports = await Report.find().select('-photos');
   return NextResponse.json(
-    groupReportsV2(reports),
+    groupReports(reports),
     {
       status: 200,
     },
