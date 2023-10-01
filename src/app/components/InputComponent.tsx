@@ -28,7 +28,6 @@ const InputComponent = ({
 	required,
 	icon,
 	className,
-	className,
 }: Props) => {
 
 	return (

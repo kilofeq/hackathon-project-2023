@@ -1,12 +1,11 @@
 'use client';
 
 import AddReportForm from "@/app/components/AddReport.form";
-import { ButtonComponent } from "@/app/components/ButtonComponent";
 import { IconButton } from "@/app/components/IconButton";
 import { MapComponent } from "@/app/components/MapComponent";
 import Modal from "@/app/components/Modal/Modal";
 import { useEffect, useState } from "react";
-import { Color, IReport } from "@/types/util.types";
+import { IReport } from "@/types/util.types";
 import { MenuIcon } from "@/assets/menuIcon";
 import { FilterIcon } from "@/assets/filterIcon";
 import { auth } from "./helpers/firebase";
@@ -22,6 +21,8 @@ import { OutputFormat, setDefaults } from "react-geocode";
 import Switch from "react-switch";
 import { Animal, animalValues } from "./api/enums/animalEnum";
 import { toast } from "react-toastify";
+import { PlusIcon } from "@/assets/PlusIcon";
+import SideList from "@/app/components/SideList";
 
 const MapPage = () => {
 	const [user, setUser] = useState<User | null>(null)

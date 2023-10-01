@@ -77,7 +77,7 @@ function SideList({ reports }: Props) {
 						{ Tab.DANGER_REPORTS }
 					</div>
 				</div>
-				<div className="flex flex-col overflow-y-auto max-h-[91vh]">
+				<div className="flex flex-col overflow-y-auto max-h-[93vh]">
 					{
 						getReports().map(reports => reports.map(report =>
 							<>
