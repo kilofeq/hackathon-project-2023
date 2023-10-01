@@ -19,6 +19,7 @@ export type AddReportFormType = {
 	animalType: Animal,
 	imagesUrls: string[],
   danger: boolean
+	description: string
 }
 
 type Props = {
@@ -30,7 +31,6 @@ const AddReportForm = ({
 	className = "",
 	onSuccess,
 }: Props) => {
-	const [description, setDescription] = useState("")
 	const options: { label: string, value: string }[] = Object.values(Animal).map((animal) => ({
 		value: animal,
 		label: `${animalToAnimalEmojiDictionary[animal]} ${animalToAnimalNameDictionary[animal]}`
@@ -42,7 +42,8 @@ const AddReportForm = ({
 		initialValues: {
 			animalType: options[0].value as Animal,
 			imagesUrls: [],
-      danger: false
+      danger: false,
+			description: ""
 		},
 		onSubmit: async values => {
 			const token = await auth.currentUser?.getIdToken()
@@ -54,7 +55,7 @@ const AddReportForm = ({
 				animal: values.animalType,
 				danger: values.danger,
 				firebaseUid: auth.currentUser?.uid,
-				description
+				description: values.description
 			}, {
 				headers: {
 					Authorization: `Bearer ${token}`
@@ -96,9 +97,9 @@ const AddReportForm = ({
 				<InputComponent
 					label="Znaki szczególne, krótki opis"
 					placeholder="np. biały kolor, brak ogona, itp."
-					value={ description }
+					value={formik.values.description}
 					name="description"
-					handleChange={ (e) => setDescription(e.target.value) }
+					handleChange={formik.handleChange}
 					type={ InputType.TEXT }
 				/>
 				<hr/>
