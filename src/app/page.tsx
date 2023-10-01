@@ -1,16 +1,16 @@
 'use client';
 
-import { MapComponent } from "@/app/components/MapComponent";
-import { useEffect, useState } from "react";
+import {MapComponent} from "@/app/components/MapComponent";
+import {useEffect, useState} from "react";
 import Modal from "@/app/components/Modal/Modal";
-import { ButtonComponent } from "@/app/components/ButtonComponent";
-import { Color, IReport, StateConfig } from "@/types/util.types";
-import { IconButton } from "@/app/components/IconButton";
-import { MenuIcon } from "@/assets/menuIcon";
-import { FilterIcon } from "@/assets/filterIcon";
+import {ButtonComponent} from "@/app/components/ButtonComponent";
+import {Color, IReport} from "@/types/util.types";
+import {IconButton} from "@/app/components/IconButton";
+import {MenuIcon} from "@/assets/menuIcon";
+import {FilterIcon} from "@/assets/filterIcon";
 import AddReportForm from "@/app/components/AddReport.form";
-import { auth } from "./helpers/firebase";
-import { User } from "@firebase/auth";
+import {auth} from "./helpers/firebase";
+import {User} from "@firebase/auth";
 import LoginForm from "./components/LoginForm";
 import axios from "axios";
 import ReportProfile from "@/app/components/ReportProfile/ReportProfile";
@@ -20,6 +20,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from 'next/image';
 import { Animal, animalValues } from "./api/enums/animalEnum";
 import Switch from "react-switch";
+import { OutputFormat, setDefaults} from 'react-geocode'
 
 const MapPage = () => {
 	const [user, setUser] = useState<User | null>(null)
@@ -32,6 +33,13 @@ const MapPage = () => {
 	const [animalFilters, setAnimalFilters] = useState<Animal[]>([])
 	const [isDangerous, setIsDangerous] = useState(false)
 	const [isSafe, setIsSafe] = useState(false)
+
+  setDefaults({
+    key: "AIzaSyBwgfFNNWpM4EfH_hA-Lfge3ltdyGteeQ4",
+    language: "en",
+    region: "pl",
+    outputFormat: OutputFormat.JSON
+  });
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((loc) => {
@@ -64,7 +72,6 @@ const MapPage = () => {
 			const {data} = await axios.post("/api/fetch-report", {
 				id: report._id
 			})
-			console.log(data)
 			setCurrentReport(data)
 		} catch (e) {
 			console.error(e)
@@ -87,7 +94,13 @@ const MapPage = () => {
 
 	return (
 		<>
-			<div className='relative h-screen w-screen'>
+			<div
+				className='relative'
+				style={{
+					height: '100dvh',
+					width: '100dvw'
+				}}
+			>
 				{reportLoading && (
 					<div
 						className="fixed w-full h-full z-30 bg-black bg-opacity-50 flex items-center justify-center"

@@ -26,13 +26,14 @@ export enum InputType {
 
 export interface IReport {
 	_id: string,
-    name: string,
-    photos: Nullable<string[]>,
-    latitude: number,
-    longitude: number,
-    firebaseUid: string,
-    danger: boolean,
-    animal: Animal
+	name: string,
+	photos: Nullable<string[]>,
+	latitude: number,
+	longitude: number,
+	firebaseUid: string,
+	danger: boolean,
+	animal: Animal
+	description: string
 }
 
 export type StateConfig<T> = {

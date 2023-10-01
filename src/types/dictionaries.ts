@@ -8,6 +8,7 @@ export const animalToAnimalNameDictionary: EnumDictionary<Animal, string> = {
 	[Animal.Chicken]: "Kurczak",
 	[Animal.Pig]: "Świnia",
 	[Animal.Cat]: "Kot",
+
 }
 
 export const animalToAnimalEmojiDictionary: EnumDictionary<Animal, string> = {
@@ -18,3 +19,4 @@ export const animalToAnimalEmojiDictionary: EnumDictionary<Animal, string> = {
 	[Animal.Pig]: "🐷",
 	[Animal.Cat]: "🐱",
 }
+

@@ -26,7 +26,7 @@ export const MapComponent = (props: {onMapPinClick: (report: any) => void, group
 					pauseOnHover
 					theme="light"
 				/>
-				<div className='w-screen h-screen'>
+				<div className='w-full h-full'>
 					<GoogleMap
 						apiKey = "AIzaSyBwgfFNNWpM4EfH_hA-Lfge3ltdyGteeQ4"
 						defaultCenter={{lat: props.userLocalization.lat, lng: props.userLocalization.lng}}
@@ -43,6 +43,7 @@ export const MapComponent = (props: {onMapPinClick: (report: any) => void, group
 							clickableIcons: false,
 						}}
 					>
+             {/*@ts-ignore*/}
 						{
 							props.groupedReports?.map((reports: IReport[]) => {
 								const report = reports[0]
@@ -63,7 +64,7 @@ export const MapComponent = (props: {onMapPinClick: (report: any) => void, group
 		)
 	} else {
 		return (
-			<div className='h-screen w-screen flex justify-center items-center bg-sky-950 absolute top-0 left-0 z-50'>
+			<div className='h-full w-full flex justify-center items-center bg-sky-950 absolute top-0 left-0 z-50'>
 				<FontAwesomeIcon
 					className="animate-spin"
 					icon={faSpinner}

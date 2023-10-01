@@ -29,6 +29,7 @@
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
+    "react-geocode": "^1.0.0-alpha.1",
     "react-select": "^5.7.5",
     "react-spinners": "^0.13.8",
     "react-switch": "^7.0.0",
