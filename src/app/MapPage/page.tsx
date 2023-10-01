@@ -12,12 +12,31 @@ import AddReportForm from "@/app/components/AddReport.form";
 import { auth } from "../helpers/firebase";
 import { User } from "@firebase/auth";
 import LoginForm from "../components/LoginForm";
+import axios from "axios";
 import ReportProfile from "@/app/components/ReportProfile/ReportProfile";
 import { animalToAnimalEmojiDictionary, animalToAnimalNameDictionary } from "@/types/dictionaries";
 
 const MapPage = () => {
-	const [user, setUser] = useState<User | null>(null)
-	const [ isAddReportDialogOpen, setAddReportDialogOpen ] = useState(false);
+    const [user, setUser] = useState<User | null>(null)
+    const [ isAddReportDialogOpen, setAddReportDialogOpen ] = useState(false);
+    const [userLocalization, setUserLocalization] = useState({ lat: 0, lng: 0 });
+    const [reports, setReports] = useState<IReport[]>([])
+    const [loading, setLoading] = useState(true)
+
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((loc) => {
+      setUserLocalization({ lat: loc.coords.latitude, lng: loc.coords.longitude });
+    });
+  }, []);
+
+  useEffect(() => {
+    axios.get("/api/fetch-reports").then(r => {
+      setReports(r.data)
+    }).finally(() => {
+      setLoading(false)
+    })
+  }, []);
 
 	const [ addReportModal, setAddReportModal ] = useState<StateConfig<IReport>>({
 		isOpen: false,
@@ -39,7 +58,12 @@ const MapPage = () => {
 				<IconButton style={"right-5 top-5 bg-sky-950"}>
 					<FilterIcon/>
 				</IconButton>
-				<MapComponent onMapPinClick={ report => setAddReportModal({ isOpen: true, value: report }) }/>
+				<MapComponent
+                    reports={reports}
+                    loading={loading}
+                    userLocalization={userLocalization}
+                    onMapPinClick={ report => setAddReportModal({ isOpen: true, value: report }) }
+                />
 				<ButtonComponent
 					handleClick={ () => setAddReportDialogOpen(true) }
 					color={ Color.RED }
@@ -61,7 +85,7 @@ const MapPage = () => {
 			<Modal
 				isOpen={ isAddReportDialogOpen }
 				setIsOpen={ () => setAddReportDialogOpen(isOpen => !isOpen) }
-				title="Dodaj zgłoszenie"
+                title={user ? "Dodaj zgłoszenie" : "Zaloguj się by dodać zgłoszenie"}
 			>
 				{user ? (
 					<AddReportForm className="px-4" onSuccess={ () => setAddReportDialogOpen(false) }/>

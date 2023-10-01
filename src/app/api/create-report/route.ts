@@ -5,13 +5,14 @@ import connectMongoose from "../helpers/connectMongoose";
 import { Animal, dangerOfAnimal } from "../enums/animalEnum";
 import {auth} from "../helpers/firebaseAdmin"
 
-interface createReportRequest {
-  name: string;
-  photos?: Array<string>;
-  latitude: number;
-  longitude: number;
-  danger?: boolean;
-  animal: Animal;
+interface createReportRequest{
+    description?: string,
+    user_id: string,
+    photos?: Array<string>,
+    latitude: number,
+    longitude: number,
+    danger?: boolean,
+    animal: Animal
 }
 export function POST(request: NextRequest) {
   return handle(request);

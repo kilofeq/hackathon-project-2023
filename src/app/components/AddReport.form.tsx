@@ -2,7 +2,7 @@
 
 import { useFormik } from "formik";
 import { Animal } from "@/app/api/enums/animalEnum";
-import { Color, InputType } from "@/types/util.types";
+import {Color, InputType, IReport, Nullable} from "@/types/util.types";
 import InputComponent from "@/app/components/InputComponent";
 import classNames from "classnames";
 import { ButtonComponent } from "@/app/components/ButtonComponent";
@@ -17,30 +17,35 @@ import { toast } from "react-toastify";
 
 export type AddReportFormType = {
 	name: string
-	animalType: Animal
-	imagesUrls: string[]
+	animalType: Animal,
+	imagesUrls: string[],
+  danger: boolean
 }
 
 type Props = {
 	className?: string
 	onSuccess?: () => void
+  reports?: IReport[]
 }
 
 const AddReportForm = ({
 	className = "",
 	onSuccess,
+  reports
 }: Props) => {
 	const options: { label: string, value: string }[] = Object.values(Animal).map((animal) => ({
 		value: animal,
 		label: animalToAnimalNameDictionary[ animal ]
 	}))
 	const { lat, lng } = useLocation();
+
 	const [ isAddingMarker, setIsAddingMarker ] = useState(false);
-	const formik = useFormik<AddReportFormType>({
+  const formik = useFormik<AddReportFormType>({
 		initialValues: {
 			name: "",
 			animalType: options[0].value as Animal,
 			imagesUrls: [],
+      danger: false
 		},
 		onSubmit: async values => {
 			const token = await auth.currentUser?.getIdToken()
@@ -51,14 +56,23 @@ const AddReportForm = ({
 				latitude: lat,
 				longitude: lng,
 				animal: values.animalType,
-				danger: false,
+				danger: values.danger,
 			}, {
 				headers: {
 					Authorization: `Bearer ${token}`
 				}
 			}).then(() => {
 				if (!onSuccess) return;
-				onSuccess();
+        reports?.push({
+          name: formik.values.name,
+          photos: formik.values.imagesUrls,
+          latitude: lat,
+          longitude: lng,
+          animal: formik.values.animalType,
+          danger: formik.values.danger,
+          user_ids: ["dupa"]
+        })
+        onSuccess();
 				toast(`${ animalToAnimalEmojiDictionary[ formik.values.animalType ] } Pomyślnie dodano zgłoszenie`)
 			}).finally(() => {
 				setIsAddingMarker(false);
@@ -93,6 +107,10 @@ const AddReportForm = ({
 					value={ formik.values.animalType }
 					handleChange={ formik.handleChange }
 				/>
+        <div className='flex gap-2 py-2'>
+          <label htmlFor='danger' className='text-neutral-800 text-xs font-bold uppercase tracking-wide'>Czy zwierzę jest niebezpieczne?</label>
+          <input className='w-4 h-4' name='danger' id='danger' type='checkbox' onChange={(e) => formik.setFieldValue('danger', e.target.checked)} checked={ formik.values.danger }/>
+        </div>
 				<ImageInput onDataUrls={ urls => formik.setFieldValue("imagesUrls", urls) }/>
 				<hr/>
 				<div className="px-4 pt-6 flex justify-center">
@@ -100,7 +118,7 @@ const AddReportForm = ({
 						color={ Color.RED }
 						submit
 						isLoading={ isAddingMarker }
-						disabled={formik.values.imagesUrls.length === 0 || formik.values.name.length === 0}
+						disabled={formik.values.name.length === 0}
 					>
 						Dodaj zgłoszenie
 					</ButtonComponent>
