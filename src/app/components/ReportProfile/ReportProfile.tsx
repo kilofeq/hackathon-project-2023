@@ -1,7 +1,7 @@
-import { IReport } from "@/types/util.types";
 import { PhotoContainer } from "@/app/components/PhotoContainer";
-import {fromLatLng} from "react-geocode";
-import {useEffect, useState} from "react";
+import { IReport } from "@/types/util.types";
+import { useEffect, useState } from "react";
+import { fromLatLng } from "react-geocode";
 
 type Props = {
 	report: IReport
@@ -11,7 +11,8 @@ function ReportProfile({
 	report: {
 		photos,
     latitude,
-    longitude
+    longitude,
+    description,
 	}
 }: Props) {
   const [animalGeocoding, setAnimalGeocoding] = useState('')
@@ -28,6 +29,16 @@ function ReportProfile({
 	return (
 		<div className="flex flex-col gap-6 px-4">
 			{ photos && <PhotoContainer images={ photos }/> }
+      {description && (
+        <div>
+          <p
+            className="text-sm font-semibold text-gray-800"
+          >
+            ZNAKI SZCZEGÓLNE
+          </p>
+          <p className='text-xs font-light text-gray-600'>{description}</p>
+        </div>
+      )}
       <div>
         <p
           className="text-sm font-semibold text-gray-800"
