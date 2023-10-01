@@ -1,26 +1,27 @@
 'use client';
 
-import {MapComponent} from "@/app/components/MapComponent";
-import {useEffect, useState} from "react";
+import { MapComponent } from "@/app/components/MapComponent";
+import { useEffect, useState } from "react";
 import Modal from "@/app/components/Modal/Modal";
-import {ButtonComponent} from "@/app/components/ButtonComponent";
-import {Color, IReport} from "@/types/util.types";
-import {IconButton} from "@/app/components/IconButton";
-import {MenuIcon} from "@/assets/menuIcon";
-import {FilterIcon} from "@/assets/filterIcon";
+import { IReport } from "@/types/util.types";
+import { IconButton } from "@/app/components/IconButton";
+import { MenuIcon } from "@/assets/menuIcon";
+import { FilterIcon } from "@/assets/filterIcon";
 import AddReportForm from "@/app/components/AddReport.form";
-import {auth} from "./helpers/firebase";
-import {User} from "@firebase/auth";
+import { auth } from "./helpers/firebase";
+import { User } from "@firebase/auth";
 import LoginForm from "./components/LoginForm";
 import axios from "axios";
 import ReportProfile from "@/app/components/ReportProfile/ReportProfile";
 import { animalToAnimalEmojiDictionary, animalToAnimalNameDictionary } from "@/types/dictionaries";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Image from 'next/image';
+import Image from "next/image";
 import { Animal, animalValues } from "./api/enums/animalEnum";
 import Switch from "react-switch";
-import { OutputFormat, setDefaults} from 'react-geocode'
+import { OutputFormat, setDefaults } from "react-geocode";
+import SideList from "@/app/components/SideList";
+import { PlusIcon } from "@/assets/PlusIcon";
 
 const MapPage = () => {
 	const [user, setUser] = useState<User | null>(null)
@@ -95,7 +96,7 @@ const MapPage = () => {
 	return (
 		<>
 			<div
-				className='relative'
+				className='relative flex'
 				style={{
 					height: '100dvh',
 					width: '100dvw'
@@ -113,10 +114,11 @@ const MapPage = () => {
 						/>
 					</div>
 				)}
+				<SideList reports={ filteredReports }/>
 				<div
 					className="flex items-center justify-between absolute top-0 w-full p-5 z-10"
 				>
-					<IconButton style={"bg-white"}>
+					<IconButton style={"bg-white opacity-0"}>
 						<MenuIcon/>
 					</IconButton>
 					<Image
@@ -133,95 +135,20 @@ const MapPage = () => {
 						<FilterIcon/>
 					</IconButton>
 				</div>
-				<Modal
-					title="Filtry"
-					isOpen={filtersVisibility}
-					setIsOpen={setFiltersVisibility}
-				>
-					<div
-						className="px-4 py-2 flex flex-col space-y-2.5"
-					>
-						{animalValues.map(animal => (
-							<div
-								key={`filter-${animal}`}
-								className="flex items-center"
-							>
-								<Switch
-									checked={animalFilters.includes(animal)}
-									onChange={checked => setAnimalFilters(
-										animalFilters => checked ? [...animalFilters, animal] : animalFilters.filter(a => a !== animal)
-									)}
-									height={29}
-									width={48}
-								/>
-								<span
-									className="text-2xl ml-4"
-								>
-									{animalToAnimalEmojiDictionary[animal]}
-								</span>
-								<span
-									className="text-sm font-semibold ml-2 uppercase"
-								>
-									{animalToAnimalNameDictionary[animal]}
-								</span>
-							</div>
-						))}
-						<div
-							className="flex items-center"
-						>
-							<Switch
-								checked={isDangerous}
-								onChange={setIsDangerous}
-								height={29}
-								width={48}
-							/>
-							<span
-								className="text-2xl ml-4"
-							>
-								⛔️
-							</span>
-							<span
-								className="text-sm font-semibold ml-2 uppercase"
-							>
-								Tylko niebezpieczne
-							</span>
-						</div>
-						<div
-							className="flex items-center"
-						>
-							<Switch
-								checked={isSafe}
-								onChange={setIsSafe}
-								height={29}
-								width={48}
-							/>
-							<span
-								className="text-2xl ml-4"
-							>
-								✅
-							</span>
-							<span
-								className="text-sm font-semibold ml-2 uppercase"
-							>
-								Niestwarzające zagrożenia
-							</span>
-						</div>
-					</div>
-				</Modal>
 				<MapComponent
-						groupedReports={filteredReports}
-						loading={loading}
-						userLocalization={userLocalization}
-						onMapPinClick={handleOpenReport}
+					groupedReports={filteredReports}
+					loading={loading}
+					userLocalization={userLocalization}
+					onMapPinClick={handleOpenReport}
 				/>
-				<ButtonComponent
-					handleClick={ () => setAddReportDialogOpen(true) }
-					color={ Color.RED }
-					className="bottom-5 px-20 absolute -translate-x-1/2 left-1/2"
+				<IconButton
+					style={"bg-red-700 bottom-5 right-5 absolute"}
+					onClick={() => setAddReportDialogOpen(true)}
 				>
-					Zgłoś
-				</ButtonComponent>
+					<PlusIcon/>
+				</IconButton>
 			</div>
+
 			{
 				currentReport &&
                 <Modal
@@ -245,6 +172,81 @@ const MapPage = () => {
 				) : (
 					<LoginForm className="px-4" />
 				)}
+			</Modal>
+			<Modal
+				title="Filtry"
+				isOpen={filtersVisibility}
+				setIsOpen={setFiltersVisibility}
+			>
+				<div
+					className="px-4 py-2 flex flex-col space-y-2.5"
+				>
+					{animalValues.map(animal => (
+						<div
+							key={`filter-${animal}`}
+							className="flex items-center"
+						>
+							<Switch
+								checked={animalFilters.includes(animal)}
+								onChange={checked => setAnimalFilters(
+									animalFilters => checked ? [...animalFilters, animal] : animalFilters.filter(a => a !== animal)
+								)}
+								height={29}
+								width={48}
+							/>
+							<span
+								className="text-2xl ml-4"
+							>
+									{animalToAnimalEmojiDictionary[animal]}
+								</span>
+							<span
+								className="text-sm font-semibold ml-2 uppercase"
+							>
+									{animalToAnimalNameDictionary[animal]}
+								</span>
+						</div>
+					))}
+					<div
+						className="flex items-center"
+					>
+						<Switch
+							checked={isDangerous}
+							onChange={setIsDangerous}
+							height={29}
+							width={48}
+						/>
+						<span
+							className="text-2xl ml-4"
+						>
+								⛔️
+							</span>
+						<span
+							className="text-sm font-semibold ml-2 uppercase"
+						>
+								Tylko niebezpieczne
+							</span>
+					</div>
+					<div
+						className="flex items-center"
+					>
+						<Switch
+							checked={isSafe}
+							onChange={setIsSafe}
+							height={29}
+							width={48}
+						/>
+						<span
+							className="text-2xl ml-4"
+						>
+								✅
+							</span>
+						<span
+							className="text-sm font-semibold ml-2 uppercase"
+						>
+								Niestwarzające zagrożenia
+							</span>
+					</div>
+				</div>
 			</Modal>
 		</>
 	)

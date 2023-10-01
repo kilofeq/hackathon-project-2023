@@ -26,7 +26,6 @@ export enum InputType {
 
 export interface IReport {
 	_id: string,
-	name: string,
 	photos: Nullable<string[]>,
 	latitude: number,
 	longitude: number,
