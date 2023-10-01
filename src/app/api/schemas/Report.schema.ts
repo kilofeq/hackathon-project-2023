@@ -1,37 +1,41 @@
-import { Schema, model, models } from "mongoose";
-import { Animal, animalValues } from "../enums/animalEnum";
+import { Schema, model, models } from 'mongoose';
+import { Animal } from '../enums/animalEnum';
 
 const reportSchema = new Schema({
-  name: String,
+  description: {
+    type: String,
+  },
   photos: {
     type: Array<String>,
     default: [],
   },
   latitude: {
     type: Number,
-    require: true,
+    required: true,
   },
   longitude: {
     type: Number,
-    require: true,
+    required: true,
   },
-  user_ids: {
-    type: Array<Schema.Types.ObjectId>,
-    ref: "User",
+  user_id: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
   },
   danger: {
     type: Boolean,
+    required: true,
   },
   animal: {
     type: String,
-    enum: animalValues,
+    enum: Animal,
+    required: true,
   },
-  /**
-   To add:
-   Description (could be optional),
-   timeOfReport,
-   Danger??
-  */
+  timeOfReport: {
+    type: Date,
+    default: Date.now(),
+    expires: 3600,
+  },
 });
 
 export default models.Report || model("Report", reportSchema);

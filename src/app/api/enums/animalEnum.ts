@@ -12,5 +12,7 @@ export const dangerOfAnimal = (animal: Animal) => {
             return true;
         case Animal.Boar: 
             return true;
+        case Animal.Dog:
+            return false;
     }
 }
