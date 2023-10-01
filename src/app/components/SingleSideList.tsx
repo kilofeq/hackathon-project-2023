@@ -1,5 +1,6 @@
 import { IReport } from "@/types/util.types";
 import { animalToAnimalEmojiDictionary } from "@/types/dictionaries";
+import { PhotoContainer } from "./PhotoContainer";
 
 type Props = {
 	report: IReport
@@ -21,6 +22,7 @@ function SingleSideList({ report, onClick }: Props) {
 			<div className="text-[50px]">
 				{ animalToAnimalEmojiDictionary[ report.animal ] }
 			</div>
+			{ report.photos && <PhotoContainer images={ report.photos }/> }
 			<div className="flex justify-between w-full items-center text-sm font-medium">
 				{ getDescription() }
 				{
