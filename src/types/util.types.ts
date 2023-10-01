@@ -25,11 +25,12 @@ export enum InputType {
 }
 
 export interface IReport {
+	_id: string,
     name: string,
     photos: Nullable<string[]>,
     latitude: number,
     longitude: number,
-    user_ids: string[],
+    firebaseUid: string,
     danger: boolean,
     animal: Animal
 }

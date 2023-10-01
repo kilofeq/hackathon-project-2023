@@ -17,9 +17,8 @@ const reportSchema = new Schema({
     type: Number,
     required: true,
   },
-  user_id: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
+  firebaseUid: {
+    type: String,
     required: true,
   },
   danger: {
@@ -31,11 +30,13 @@ const reportSchema = new Schema({
     enum: Animal,
     required: true,
   },
-  timeOfReport: {
+  createdAt: {
     type: Date,
-    default: Date.now(),
-    expires: 3600,
   },
+}, {
+  timestamps: {
+    createdAt: 'createdAt'
+  }
 });
 
 export default models.Report || model("Report", reportSchema);

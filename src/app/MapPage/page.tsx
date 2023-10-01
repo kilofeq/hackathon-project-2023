@@ -20,7 +20,7 @@ const MapPage = () => {
     const [user, setUser] = useState<User | null>(null)
     const [ isAddReportDialogOpen, setAddReportDialogOpen ] = useState(false);
     const [userLocalization, setUserLocalization] = useState({ lat: 0, lng: 0 });
-    const [reports, setReports] = useState<IReport[]>([])
+    const [groupedReports, setGroupedReports] = useState<IReport[][]>([])
     const [loading, setLoading] = useState(true)
 
 
@@ -30,12 +30,16 @@ const MapPage = () => {
     });
   }, []);
 
-  useEffect(() => {
-    axios.get("/api/fetch-reports").then(r => {
-      setReports(r.data)
+	const fetchReports = () => {
+		axios.get("/api/fetch-reports").then(r => {
+      setGroupedReports(r.data)
     }).finally(() => {
       setLoading(false)
     })
+	}
+
+  useEffect(() => {
+    fetchReports()
   }, []);
 
 	const [ addReportModal, setAddReportModal ] = useState<StateConfig<IReport>>({
@@ -59,11 +63,11 @@ const MapPage = () => {
 					<FilterIcon/>
 				</IconButton>
 				<MapComponent
-                    reports={reports}
-                    loading={loading}
-                    userLocalization={userLocalization}
-                    onMapPinClick={ report => setAddReportModal({ isOpen: true, value: report }) }
-                />
+						groupedReports={groupedReports}
+						loading={loading}
+						userLocalization={userLocalization}
+						onMapPinClick={ report => setAddReportModal({ isOpen: true, value: report }) }
+				/>
 				<ButtonComponent
 					handleClick={ () => setAddReportDialogOpen(true) }
 					color={ Color.RED }
@@ -88,7 +92,10 @@ const MapPage = () => {
                 title={user ? "Dodaj zgłoszenie" : "Zaloguj się by dodać zgłoszenie"}
 			>
 				{user ? (
-					<AddReportForm className="px-4" onSuccess={ () => setAddReportDialogOpen(false) }/>
+					<AddReportForm className="px-4" onSuccess={ () => {
+						setAddReportDialogOpen(false)
+						fetchReports()
+					} }/>
 				) : (
 					<LoginForm className="px-4" />
 				)}

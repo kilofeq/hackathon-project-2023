@@ -17,7 +17,7 @@ type ReportType = {
   danger: Boolean,
   animal: Animal,
   description: string
-  timeOfReport: string
+  createdAt: string
 }
 
 function isInRange(
@@ -32,14 +32,16 @@ function isInRange(
   return vectorDistance < RANGE;
 }
 
+const sortReports = (
+  a: ReportType, b: ReportType
+) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+
 const groupReports = (reports: ReportType[]) => {
   let groupedReports: ReportType[][] = [];
   const animals = [...new Set(reports.map((e) => e.animal))];
   for (const animal of animals) {
     const reportsByAnimal = reports.filter((e) => e.animal === animal);
-    const sortedReports = reportsByAnimal.sort(
-      (a, b) => new Date(a.timeOfReport).getTime() - new Date(b.timeOfReport).getTime(),
-    );
+    const sortedReports = reportsByAnimal.sort(sortReports);
     const tempGroupedReports: ReportType[][] = [];
     let ignoredReports: number[] = [];
     sortedReports.forEach((report, index) => {
@@ -49,7 +51,7 @@ const groupReports = (reports: ReportType[]) => {
       const similarReports = sortedReports
         .slice(index + 1, sortedReports.length)
         .filter((e) => isInRange(report.longitude, report.latitude, e.longitude, e.latitude));
-      tempGroupedReports.push([report, ...similarReports]);
+      tempGroupedReports.push([report, ...similarReports].sort(sortReports));
       ignoredReports = [
         ...ignoredReports,
         ...similarReports.map((e) => sortedReports.findIndex((s) => s._id === e._id)),

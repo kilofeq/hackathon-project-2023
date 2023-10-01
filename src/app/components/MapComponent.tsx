@@ -8,7 +8,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { IReport } from "@/types/util.types";
 
-export const MapComponent = (props: {onMapPinClick: (report: any) => void, reports: IReport[],loading: boolean, userLocalization: {lat: number, lng: number} }) => {
+export const MapComponent = (props: {onMapPinClick: (report: any) => void, groupedReports: IReport[][],loading: boolean, userLocalization: {lat: number, lng: number} }) => {
 	if(!props.loading && (props.userLocalization.lat !== 0 && props.userLocalization.lng !== 0)) {
 		return (
 			<>
@@ -40,10 +40,9 @@ export const MapComponent = (props: {onMapPinClick: (report: any) => void, repor
 							clickableIcons: false
 						}}
 					>
-						{/*@ts-ignore*/}
 						{
-							props.reports?.map((report: IReport) => {
-								// @ts-ignore
+							props.groupedReports?.map((reports: IReport[]) => {
+								const report = reports[0]
 								if (report.latitude && report.longitude) {
 									return (
 										// @ts-ignore

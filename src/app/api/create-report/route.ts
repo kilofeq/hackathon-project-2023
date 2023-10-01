@@ -7,7 +7,7 @@ import {auth} from "../helpers/firebaseAdmin"
 
 interface createReportRequest{
     description?: string,
-    user_id: string,
+    firebaseUid: string,
     photos?: Array<string>,
     latitude: number,
     longitude: number,
@@ -60,9 +60,8 @@ async function handle(request: NextRequest) {
       ...reportData,
       danger: reportData.danger ?? dangerOfAnimal(reportData.animal),
     });
-    console.log(reportRecord);
-    await reportRecord.save();
-    return NextResponse.json({}, { status: 200 });
+    const report = await reportRecord.save();
+    return NextResponse.json(report, { status: 200 });
   } catch (error) {
     let message = "An error has occured";
     if (error instanceof Error) {

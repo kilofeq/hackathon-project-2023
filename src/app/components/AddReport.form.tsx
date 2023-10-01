@@ -25,13 +25,11 @@ export type AddReportFormType = {
 type Props = {
 	className?: string
 	onSuccess?: () => void
-  reports?: IReport[]
 }
 
 const AddReportForm = ({
 	className = "",
 	onSuccess,
-  reports
 }: Props) => {
 	const options: { label: string, value: string }[] = Object.values(Animal).map((animal) => ({
 		value: animal,
@@ -57,21 +55,13 @@ const AddReportForm = ({
 				longitude: lng,
 				animal: values.animalType,
 				danger: values.danger,
+				firebaseUid: auth.currentUser?.uid
 			}, {
 				headers: {
 					Authorization: `Bearer ${token}`
 				}
-			}).then(() => {
+			}).then(({data}) => {
 				if (!onSuccess) return;
-        reports?.push({
-          name: formik.values.name,
-          photos: formik.values.imagesUrls,
-          latitude: lat,
-          longitude: lng,
-          animal: formik.values.animalType,
-          danger: formik.values.danger,
-          user_ids: ["dupa"]
-        })
         onSuccess();
 				toast(`${ animalToAnimalEmojiDictionary[ formik.values.animalType ] } Pomyślnie dodano zgłoszenie`)
 			}).finally(() => {
