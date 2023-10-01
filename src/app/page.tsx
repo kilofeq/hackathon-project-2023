@@ -18,6 +18,8 @@ import { animalToAnimalEmojiDictionary, animalToAnimalNameDictionary } from "@/t
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from 'next/image';
+import { Animal, animalValues } from "./api/enums/animalEnum";
+import Switch from "react-switch";
 
 const MapPage = () => {
 	const [user, setUser] = useState<User | null>(null)
@@ -26,6 +28,10 @@ const MapPage = () => {
 	const [groupedReports, setGroupedReports] = useState<IReport[][]>([])
 	const [loading, setLoading] = useState(true)
 	const [reportLoading, setReportLoading] = useState(false)
+	const [filtersVisibility, setFiltersVisibility] = useState(false)
+	const [animalFilters, setAnimalFilters] = useState<Animal[]>([])
+	const [isDangerous, setIsDangerous] = useState(false)
+	const [isSafe, setIsSafe] = useState(false)
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((loc) => {
@@ -66,6 +72,18 @@ const MapPage = () => {
 			setReportLoading(false)
 		}
 	}
+	const filteredReports = groupedReports.map(group => group.filter(report => {
+		if (animalFilters.length > 0 && !animalFilters.includes(report.animal)) {
+			return false
+		}
+		if (isDangerous && !report.danger) {
+			return false
+		}
+		if (isSafe && report.danger) {
+			return false
+		}
+		return true
+	})).filter(group => group.length > 0)
 
 	return (
 		<>
@@ -90,17 +108,95 @@ const MapPage = () => {
 					</IconButton>
 					<Image
 						alt={"WHISTLE"}
-						className="w-48"
+						className="w-16 sm:w-20"
 						src="./logo3.svg"
 						width={300}
 						height={100}
 					/>
-					<IconButton style={"bg-sky-950"}>
+					<IconButton
+						style={"bg-sky-950"}
+						onClick={() => setFiltersVisibility(true)}
+					>
 						<FilterIcon/>
 					</IconButton>
 				</div>
+				<Modal
+					title="Filtry"
+					isOpen={filtersVisibility}
+					setIsOpen={setFiltersVisibility}
+				>
+					<div
+						className="px-4 py-2 flex flex-col space-y-2.5"
+					>
+						{animalValues.map(animal => (
+							<div
+								key={`filter-${animal}`}
+								className="flex items-center"
+							>
+								<Switch
+									checked={animalFilters.includes(animal)}
+									onChange={checked => setAnimalFilters(
+										animalFilters => checked ? [...animalFilters, animal] : animalFilters.filter(a => a !== animal)
+									)}
+									height={29}
+									width={48}
+								/>
+								<span
+									className="text-2xl ml-4"
+								>
+									{animalToAnimalEmojiDictionary[animal]}
+								</span>
+								<span
+									className="text-sm font-semibold ml-2 uppercase"
+								>
+									{animalToAnimalNameDictionary[animal]}
+								</span>
+							</div>
+						))}
+						<div
+							className="flex items-center"
+						>
+							<Switch
+								checked={isDangerous}
+								onChange={setIsDangerous}
+								height={29}
+								width={48}
+							/>
+							<span
+								className="text-2xl ml-4"
+							>
+								⛔️
+							</span>
+							<span
+								className="text-sm font-semibold ml-2 uppercase"
+							>
+								Tylko niebezpieczne
+							</span>
+						</div>
+						<div
+							className="flex items-center"
+						>
+							<Switch
+								checked={isSafe}
+								onChange={setIsSafe}
+								height={29}
+								width={48}
+							/>
+							<span
+								className="text-2xl ml-4"
+							>
+								✅
+							</span>
+							<span
+								className="text-sm font-semibold ml-2 uppercase"
+							>
+								Niestwarzające zagrożenia
+							</span>
+						</div>
+					</div>
+				</Modal>
 				<MapComponent
-						groupedReports={groupedReports}
+						groupedReports={filteredReports}
 						loading={loading}
 						userLocalization={userLocalization}
 						onMapPinClick={handleOpenReport}
