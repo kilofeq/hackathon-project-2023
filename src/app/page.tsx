@@ -1,28 +1,31 @@
 'use client';
 
-import {MapComponent} from "@/app/components/MapComponent";
-import {useEffect, useState} from "react";
-import Modal from "@/app/components/Modal/Modal";
-import {ButtonComponent} from "@/app/components/ButtonComponent";
-import {Color, IReport} from "@/types/util.types";
-import {IconButton} from "@/app/components/IconButton";
-import {MenuIcon} from "@/assets/menuIcon";
-import {FilterIcon} from "@/assets/filterIcon";
 import AddReportForm from "@/app/components/AddReport.form";
-import {auth} from "./helpers/firebase";
-import {User} from "@firebase/auth";
+import { IconButton } from "@/app/components/IconButton";
+import { MapComponent } from "@/app/components/MapComponent";
+import Modal from "@/app/components/Modal/Modal";
+import { useEffect, useState } from "react";
+import { IReport } from "@/types/util.types";
+import { MenuIcon } from "@/assets/menuIcon";
+import { FilterIcon } from "@/assets/filterIcon";
+import { auth } from "./helpers/firebase";
+import { User } from "@firebase/auth";
 import LoginForm from "./components/LoginForm";
 import axios from "axios";
 import ReportProfile from "@/app/components/ReportProfile/ReportProfile";
 import { animalToAnimalEmojiDictionary, animalToAnimalNameDictionary } from "@/types/dictionaries";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Image from 'next/image';
-import { Animal, animalValues } from "./api/enums/animalEnum";
+import Image from "next/image";
+import { OutputFormat, setDefaults } from "react-geocode";
 import Switch from "react-switch";
-import { OutputFormat, setDefaults} from 'react-geocode'
+import { Animal, animalValues } from "./api/enums/animalEnum";
+import { toast } from "react-toastify";
+import { PlusIcon } from "@/assets/PlusIcon";
+import SideList from "@/app/components/SideList";
 
 const MapPage = () => {
+	const [isSideListVisible, setIsSideListVisible] = useState(false)
 	const [user, setUser] = useState<User | null>(null)
 	const [ isAddReportDialogOpen, setAddReportDialogOpen ] = useState(false);
 	const [userLocalization, setUserLocalization] = useState({ lat: 0, lng: 0 });
@@ -36,7 +39,7 @@ const MapPage = () => {
 
   setDefaults({
     key: "AIzaSyBwgfFNNWpM4EfH_hA-Lfge3ltdyGteeQ4",
-    language: "en",
+    language: "pl",
     region: "pl",
     outputFormat: OutputFormat.JSON
   });
@@ -100,11 +103,16 @@ const MapPage = () => {
 		}
 		return true
 	})).filter(group => group.length > 0)
+	useEffect(() => {
+		setTimeout(() => toast.error('UWAGA DZIK 🚨 ODDAL SIĘ, NIE WYKONUJ GWAŁTOWNYCH RUCHÓW', {
+			toastId: 'wild-boar',
+		}), 10000)
+	}, [])
 
 	return (
 		<>
 			<div
-				className='relative'
+				className='relative flex'
 				style={{
 					height: '100dvh',
 					width: '100dvw'
@@ -122,15 +130,23 @@ const MapPage = () => {
 						/>
 					</div>
 				)}
+				<SideList
+					isOpen={isSideListVisible}
+					setIsOpen={setIsSideListVisible}
+					reports={ filteredReports }
+				/>
 				<div
 					className="flex items-center justify-between absolute top-0 w-full p-5 z-10"
 				>
-					<IconButton style={"bg-white opacity-0"}>
+					<IconButton
+						onClick={() => setIsSideListVisible(true)}
+						style={"bg-white"}
+					>
 						<MenuIcon/>
 					</IconButton>
 					<Image
 						alt={"WHISTLE"}
-						className="w-16 sm:w-20"
+						className="w-16 sm:w-20 z-50"
 						src="./logo3.svg"
 						width={300}
 						height={100}
@@ -142,30 +158,68 @@ const MapPage = () => {
 						<FilterIcon/>
 					</IconButton>
 				</div>
-				<Modal
-					title="Filtry"
-					isOpen={filtersVisibility}
-					setIsOpen={setFiltersVisibility}
+				<MapComponent
+					groupedReports={filteredReports}
+					loading={loading}
+					userLocalization={userLocalization}
+					onMapPinClick={handleOpenReport}
+				/>
+				<IconButton
+					style={"bg-red-700 bottom-5 right-5 absolute"}
+					onClick={() => setAddReportDialogOpen(true)}
 				>
-					<div
-						className="px-4 py-2 flex flex-col space-y-2.5"
-					>
-						{animalValues.map(animal => (
-							<div
-								key={`filter-${animal}`}
-								className="flex items-center"
+					<PlusIcon/>
+				</IconButton>
+			</div>
+
+			{
+				currentReport &&
+                <Modal
+					isOpen
+					setIsOpen={ () => setCurrentReport(null) }
+					title={ `Zgłoszenie: ${ animalToAnimalEmojiDictionary[ currentReport.animal ] } ${ animalToAnimalNameDictionary[ currentReport.animal ] }` }
+				>
+                    <ReportProfile report={currentReport}/>
+                </Modal>
+			}
+			<Modal
+				isOpen={ isAddReportDialogOpen }
+				setIsOpen={ () => setAddReportDialogOpen(isOpen => !isOpen) }
+                title={user ? "Dodaj zgłoszenie" : "Zaloguj się by dodać zgłoszenie"}
+			>
+				{user ? (
+					<AddReportForm className="px-6" onSuccess={ () => {
+						setAddReportDialogOpen(false)
+						fetchReports()
+					} }/>
+				) : (
+					<LoginForm className="px-6" />
+				)}
+			</Modal>
+			<Modal
+				title="Filtry"
+				isOpen={filtersVisibility}
+				setIsOpen={setFiltersVisibility}
+			>
+				<div
+					className="px-6 pb-3 pt-4 flex flex-col space-y-2.5"
+				>
+					{animalValues.map(animal => (
+						<div
+							key={`filter-${animal}`}
+							className="flex items-center"
+						>
+							<Switch
+								checked={animalFilters.includes(animal)}
+								onChange={checked => setAnimalFilters(
+									animalFilters => checked ? [...animalFilters, animal] : animalFilters.filter(a => a !== animal)
+								)}
+								height={29}
+								width={48}
+							/>
+							<span
+								className="text-2xl ml-4"
 							>
-								<Switch
-									checked={animalFilters.includes(animal)}
-									onChange={checked => setAnimalFilters(
-										animalFilters => checked ? [...animalFilters, animal] : animalFilters.filter(a => a !== animal)
-									)}
-									height={29}
-									width={48}
-								/>
-								<span
-									className="text-2xl ml-4"
-								>
 									{animalToAnimalEmojiDictionary[animal]}
 								</span>
 								<span
@@ -214,46 +268,8 @@ const MapPage = () => {
 							>
 								Niestwarzające zagrożenia
 							</span>
-						</div>
 					</div>
-				</Modal>
-				<MapComponent
-						groupedReports={filteredReports}
-						loading={loading}
-						userLocalization={userLocalization}
-						onMapPinClick={handleOpenReport}
-				/>
-				<ButtonComponent
-					handleClick={ () => setAddReportDialogOpen(true) }
-					color={ Color.RED }
-					className="bottom-5 px-20 absolute -translate-x-1/2 left-1/2"
-				>
-					Zgłoś
-				</ButtonComponent>
-			</div>
-			{
-				currentReport &&
-                <Modal
-					isOpen
-					setIsOpen={ () => setCurrentReport(null) }
-					title={ `Zgłoszenie: ${ animalToAnimalEmojiDictionary[ currentReport.animal ] } ${ animalToAnimalNameDictionary[ currentReport.animal ] }` }
-				>
-                    <ReportProfile report={currentReport}/>
-                </Modal>
-			}
-			<Modal
-				isOpen={ isAddReportDialogOpen }
-				setIsOpen={ () => setAddReportDialogOpen(isOpen => !isOpen) }
-                title={user ? "Dodaj zgłoszenie" : "Zaloguj się by dodać zgłoszenie"}
-			>
-				{user ? (
-					<AddReportForm className="px-4" onSuccess={ () => {
-						setAddReportDialogOpen(false)
-						fetchReports()
-					} }/>
-				) : (
-					<LoginForm className="px-4" />
-				)}
+				</div>
 			</Modal>
 		</>
 	)

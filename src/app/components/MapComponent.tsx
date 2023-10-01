@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { IReport } from "@/types/util.types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { animalToAnimalEmojiDictionary } from "@/types/dictionaries";
 
 export const MapComponent = (props: {onMapPinClick: (report: any) => void, groupedReports: IReport[][],loading: boolean, userLocalization: {lat: number, lng: number} }) => {
 
@@ -16,7 +17,7 @@ export const MapComponent = (props: {onMapPinClick: (report: any) => void, group
 			<>
 				<ToastContainer
 					position="bottom-left"
-					autoClose={5000}
+					autoClose={10000}
 					hideProgressBar={false}
 					newestOnTop={false}
 					closeOnClick
@@ -30,10 +31,10 @@ export const MapComponent = (props: {onMapPinClick: (report: any) => void, group
 					<GoogleMap
 						apiKey = "AIzaSyBwgfFNNWpM4EfH_hA-Lfge3ltdyGteeQ4"
 						defaultCenter={{lat: props.userLocalization.lat, lng: props.userLocalization.lng}}
-						defaultZoom={17}
+						defaultZoom={13}
 						loadingContent={null}
 						options={{
-              disableDoubleClickZoom: true,
+						 	disableDoubleClickZoom: true,
 							fullscreenControl: false,
 							rotateControl: false,
 							panControl: false,
@@ -52,7 +53,7 @@ export const MapComponent = (props: {onMapPinClick: (report: any) => void, group
 										// @ts-ignore
 										<div onClick={() => props.onMapPinClick(report)} key={report._id} lat={report.latitude}
 											 lng={report.longitude} className='-translate-y-full'>
-											{report.danger ? <WarningMarker/> : <InfoMarker/>}
+											{report.danger ? <WarningMarker>{animalToAnimalEmojiDictionary[report.animal]}</WarningMarker> : <InfoMarker>{animalToAnimalEmojiDictionary[report.animal]}</InfoMarker>}
 										</div>
 									)
 								}

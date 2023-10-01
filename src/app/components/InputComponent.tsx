@@ -1,6 +1,6 @@
 import { InputType, Nullable } from "@/types/util.types";
 import classNames from "classnames";
-import { ChangeEvent } from "react";
+import { ChangeEvent, ReactNode } from "react";
 
 type Props = {
 	name: string
@@ -12,6 +12,7 @@ type Props = {
 	handleChange: (e: ChangeEvent<HTMLInputElement>) => void
 	placeholder?: string
 	required?: boolean
+	icon?: ReactNode
 	className?: string
 }
 
@@ -25,12 +26,13 @@ const InputComponent = ({
 	handleChange,
 	placeholder,
 	required,
+	icon,
 	className,
 }: Props) => {
 
 	return (
 		<div className={classNames(
-			"flex flex-col gap-1",
+			"flex flex-col gap-1 w-full",
 			className
 		)}>
 			{
@@ -42,15 +44,26 @@ const InputComponent = ({
 					{ label }
 				</label>
 			}
-			<input
-				type={ type }
-				value={ value }
-				disabled={ disabled }
-				name={ name }
-				onChange={ handleChange }
-				className="text-neutral-800 text-sm font-normal h-12 p-4 rounded-xl items-center bg-zinc-100 outline-none"
-				placeholder={ placeholder }
-			/>
+			<div className="relative">
+				{
+					icon &&
+					<div className="absolute top-[50%] translate-y-[-50%] left-3">
+						{ icon }
+					</div>
+				}
+				<input
+					type={ type }
+					value={ value }
+					disabled={ disabled }
+					name={ name }
+					onChange={ handleChange }
+					className={ classNames(
+						"text-neutral-800 text-sm font-normal h-12 p-4 rounded-xl items-center bg-zinc-100 outline-none w-full",
+						{ "pl-10": icon }
+					) }
+					placeholder={ placeholder }
+				/>
+			</div>
 			{
 				error &&
 				<div className="text-red-400 text-sm font-normal">
