@@ -178,7 +178,19 @@ const MapPage = () => {
                 <Modal
 					isOpen
 					setIsOpen={ () => setCurrentReport(null) }
-					title={ `Zgłoszenie: ${ animalToAnimalEmojiDictionary[ currentReport.animal ] } ${ animalToAnimalNameDictionary[ currentReport.animal ] }` }
+					title={
+						<div className="flex gap-4 items-center">
+							<span>
+								{ `Zgłoszenie: ${ animalToAnimalEmojiDictionary[ currentReport.animal ] } ${ animalToAnimalNameDictionary[ currentReport.animal ] }` }
+							</span>
+							{
+								currentReport.danger &&
+                                <div className="bg-red-300 text-red-700 border-red-700 text-[7px] px-2 py-1 animate-ping rounded-full w-[15px] h-[15px] flex items-center justify-center">
+                                    ⚠️
+                                </div>
+							}
+						</div>
+					}
 				>
                     <ReportProfile report={currentReport}/>
                 </Modal>
