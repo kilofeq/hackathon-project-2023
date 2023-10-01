@@ -18,11 +18,11 @@ function SingleSideList({ report, onClick }: Props) {
 	}
 
 	return (
-		<div className="flex items-center gap-2 w-full px-3" onClick={ () => onClick(report) }>
+		<div className="flex items-center gap-2 w-full px-3 py-1" onClick={ () => onClick(report) }>
 			<div className="text-[50px]">
 				{ animalToAnimalEmojiDictionary[ report.animal ] }
 			</div>
-			<div className="flex justify-between w-full items-center">
+			<div className="flex justify-between w-full items-center text-sm font-medium">
 				{ getDescription() }
 				{
 					report.danger &&

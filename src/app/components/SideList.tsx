@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { IReport, StateConfig } from "@/types/util.types";
 import classNames from "classnames";
 import SingleSideList from "@/app/components/SingleSideList";
@@ -6,6 +6,8 @@ import { ArrowIcon } from "@/assets/ArrowIcon";
 import Modal from "@/app/components/Modal/Modal";
 import { animalToAnimalEmojiDictionary, animalToAnimalNameDictionary } from "@/types/dictionaries";
 import ReportProfile from "@/app/components/ReportProfile/ReportProfile";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faX } from "@fortawesome/free-solid-svg-icons";
 
 enum Tab {
 	ALL_REPORTS = "Wszystkie raporty",
@@ -14,12 +16,13 @@ enum Tab {
 
 type Props = {
 	reports: IReport[][]
+	isOpen: boolean
+	setIsOpen: Dispatch<SetStateAction<boolean>>
 }
 
-function SideList({ reports }: Props) {
+function SideList({ reports, isOpen, setIsOpen }: Props) {
 
 	const [ currentTab, setCurrentTab ] = useState(Tab.ALL_REPORTS);
-	const [ isSideListOpen, setSideListOpen ] = useState(true);
 	const [ currentReport, setCurrentReport ] = useState<StateConfig<IReport>>({
 		value: null,
 		isOpen: false,
@@ -33,21 +36,28 @@ function SideList({ reports }: Props) {
 	return (
 		<>
 			<div className={ classNames(
-				"w-[40vw] max-w-md px-2 sm:px-0 absolute left-0 z-20 bg-white transition-all duration-300",
-				{ "left-[-40vw]": !isSideListOpen }
+				"w-full sm:w-1/2 sm:max-w-md absolute left-0 z-20 bg-white transition-all duration-300 h-full shadow-lg",
+				{ "left-[-100%]": !isOpen }
 			) }>
-				<div
-					onClick={ () => setSideListOpen(isOpen => !isOpen) }
-					className={ classNames(
-						"absolute w-[35px] h-[35px] bg-red-800 rounded-full cursor-pointer transition-all duration-300",
-						"flex items-center justify-center top-2 z-40",
-						{ "rotate-180 right-[-17.5px]": isSideListOpen },
-						{ "rotate-0 right-[-30px]": !isSideListOpen }
-					) }
+				<button
+					className="sm:hidden absolute top-2 right-2 w-10 h-10 bg-red-800 rounded-lg"
+					onClick={ () => setIsOpen(false) }
 				>
-					<ArrowIcon/>
-				</div>
-				<div className="flex space-x-1 rounded-xl bg-red-900/20 p-1 gap-1">
+					<FontAwesomeIcon
+						icon={faX}
+						color="white"
+					/>
+				</button>
+				<button
+					className="hidden sm:block absolute top-0 right-0 w-12 h-12 bg-red-800 -mr-12 rounded-ee-lg"
+					onClick={ () => setIsOpen(false) }
+				>
+					<FontAwesomeIcon
+						icon={faX}
+						color="white"
+					/>
+				</button>
+				<div className="flex space-x-1 bg-red-900/20 p-2 sm:p-1 gap-1">
 					<div
 						onClick={ () => setCurrentTab(Tab.ALL_REPORTS) }
 						className={

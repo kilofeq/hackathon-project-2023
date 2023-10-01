@@ -25,6 +25,7 @@ import { PlusIcon } from "@/assets/PlusIcon";
 import SideList from "@/app/components/SideList";
 
 const MapPage = () => {
+	const [isSideListVisible, setIsSideListVisible] = useState(false)
 	const [user, setUser] = useState<User | null>(null)
 	const [ isAddReportDialogOpen, setAddReportDialogOpen ] = useState(false);
 	const [userLocalization, setUserLocalization] = useState({ lat: 0, lng: 0 });
@@ -128,11 +129,18 @@ const MapPage = () => {
 						/>
 					</div>
 				)}
-				<SideList reports={ filteredReports }/>
+				<SideList
+					isOpen={isSideListVisible}
+					setIsOpen={setIsSideListVisible}
+					reports={ filteredReports }
+				/>
 				<div
 					className="flex items-center justify-between absolute top-0 w-full p-5 z-10"
 				>
-					<IconButton style={"bg-white opacity-0"}>
+					<IconButton
+						onClick={() => setIsSideListVisible(true)}
+						style={"bg-white"}
+					>
 						<MenuIcon/>
 					</IconButton>
 					<Image
@@ -179,12 +187,12 @@ const MapPage = () => {
                 title={user ? "Dodaj zgłoszenie" : "Zaloguj się by dodać zgłoszenie"}
 			>
 				{user ? (
-					<AddReportForm className="px-4" onSuccess={ () => {
+					<AddReportForm className="px-6" onSuccess={ () => {
 						setAddReportDialogOpen(false)
 						fetchReports()
 					} }/>
 				) : (
-					<LoginForm className="px-4" />
+					<LoginForm className="px-6" />
 				)}
 			</Modal>
 			<Modal
@@ -193,7 +201,7 @@ const MapPage = () => {
 				setIsOpen={setFiltersVisibility}
 			>
 				<div
-					className="px-4 py-2 flex flex-col space-y-2.5"
+					className="px-6 pb-3 pt-4 flex flex-col space-y-2.5"
 				>
 					{animalValues.map(animal => (
 						<div
