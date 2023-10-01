@@ -43,6 +43,7 @@ export const MapComponent = (props: {onMapPinClick: (report: any) => void, group
 							clickableIcons: false,
 						}}
 					>
+             {/*@ts-ignore*/}
 						{
 							props.groupedReports?.map((reports: IReport[]) => {
 								const report = reports[0]
