@@ -7,7 +7,7 @@ import {auth} from "../helpers/firebaseAdmin"
 
 interface createReportRequest{
     description?: string,
-    firebaseUid: string,
+    firebaseUid: string
     photos?: Array<string>,
     latitude: number,
     longitude: number,
