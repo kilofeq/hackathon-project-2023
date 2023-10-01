@@ -1,26 +1,27 @@
 'use client';
 
-import {MapComponent} from "@/app/components/MapComponent";
-import {useEffect, useState} from "react";
-import Modal from "@/app/components/Modal/Modal";
-import {ButtonComponent} from "@/app/components/ButtonComponent";
-import {Color, IReport} from "@/types/util.types";
-import {IconButton} from "@/app/components/IconButton";
-import {MenuIcon} from "@/assets/menuIcon";
-import {FilterIcon} from "@/assets/filterIcon";
 import AddReportForm from "@/app/components/AddReport.form";
-import {auth} from "./helpers/firebase";
-import {User} from "@firebase/auth";
-import LoginForm from "./components/LoginForm";
-import axios from "axios";
+import { ButtonComponent } from "@/app/components/ButtonComponent";
+import { IconButton } from "@/app/components/IconButton";
+import { MapComponent } from "@/app/components/MapComponent";
+import Modal from "@/app/components/Modal/Modal";
 import ReportProfile from "@/app/components/ReportProfile/ReportProfile";
+import { FilterIcon } from "@/assets/filterIcon";
+import { MenuIcon } from "@/assets/menuIcon";
 import { animalToAnimalEmojiDictionary, animalToAnimalNameDictionary } from "@/types/dictionaries";
+import { Color, IReport } from "@/types/util.types";
+import { User } from "@firebase/auth";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
 import Image from 'next/image';
-import { Animal, animalValues } from "./api/enums/animalEnum";
+import { useEffect, useState } from "react";
+import { OutputFormat, setDefaults } from 'react-geocode';
 import Switch from "react-switch";
-import { OutputFormat, setDefaults} from 'react-geocode'
+import { toast } from "react-toastify";
+import { Animal, animalValues } from "./api/enums/animalEnum";
+import LoginForm from "./components/LoginForm";
+import { auth } from "./helpers/firebase";
 
 const MapPage = () => {
 	const [user, setUser] = useState<User | null>(null)
@@ -48,7 +49,6 @@ const MapPage = () => {
   }, []);
 
 	const fetchReports = () => {
-		setLoading(true)
 		axios.get("/api/fetch-reports", {
 			headers: {
 				'Cache-Control': 'no-cache'
@@ -100,6 +100,11 @@ const MapPage = () => {
 		}
 		return true
 	})).filter(group => group.length > 0)
+	useEffect(() => {
+		setTimeout(() => toast.error('UWAGA DZIK 🚨 ODDAL SIĘ, NIE WYKONUJ GWAŁTOWNYCH RUCHÓW', {
+			toastId: 'wild-boar',
+		}), 10000)
+	}, [])
 
 	return (
 		<>

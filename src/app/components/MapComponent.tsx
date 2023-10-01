@@ -16,7 +16,7 @@ export const MapComponent = (props: {onMapPinClick: (report: any) => void, group
 			<>
 				<ToastContainer
 					position="bottom-left"
-					autoClose={5000}
+					autoClose={10000}
 					hideProgressBar={false}
 					newestOnTop={false}
 					closeOnClick
